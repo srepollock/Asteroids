@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: a0e3630cbf7f14154b64bbcbeace6ccb
 timeCreated: 1473962322
+=======
+guid: 130137bcf26095b408b41b18bb5f5d5a
+timeCreated: 1473962483
+>>>>>>> player_shooting
 licenseType: Free
 NativeFormatImporter:
   userData: 

@@ -9,11 +9,23 @@ public class PlayerControls : MonoBehaviour {
 	public int currentSpeed = 10; // Initially is the slowest speed
 	public float rotateSpeed = 45.0f;
 
+    public GameObject shot;
+    public Transform shotSpawn;
+    public float fireRate = 0.5f;
+    private float nextFire = 0.0f;
+
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
+    void Update() {
+        if (Input.GetButton("Fire1") && Time.time > nextFire) {
+            nextFire = Time.time + fireRate;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+        }
+    }
+
 	// Update is called once per frame
 	void LateUpdate () {
 		// Spacecraft Roll
