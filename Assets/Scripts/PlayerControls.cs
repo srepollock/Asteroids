@@ -52,9 +52,12 @@ public class PlayerControls : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col) {
-		if (col.gameObject.tag == "Asteroid") {
-			Debug.Log ("damaging");
+		Debug.Log ("colliding with " + col.ToString());
+		if (col.gameObject.name == "Sphere") {
+			Debug.Log ("well damn");
+		} else if (col.gameObject.tag == "Asteroid") {
 			Destroy (col.gameObject);
+			Application.Quit ();
 		}
 	}
 }
