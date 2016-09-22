@@ -12,21 +12,17 @@ public class BoundaryCollision : MonoBehaviour {
 		Debug.Log ("boundary created");
 	}
 
-	void OnTriggerStay(Collider other) {
-		oob = HUD.GetComponent<OOBscript> ();
-		oob.danger = true;
-		//Debug.Log ("Object inside");
-	}
-
 	void OnTriggerExit(Collider other) {
-		oob = HUD.GetComponent<OOBscript> ();
-		oob.danger = false;
-		Debug.Log ("Object exited");
+		if (other.gameObject.name == "Player") {
+			oob.danger = true;
+			Debug.Log ("Object exited");
+		}
 	}
 
 	void OnTriggerEnter(Collider other) {
-		oob = HUD.GetComponent<OOBscript> ();
-		oob.danger = true;
-		Debug.Log ("Object entered");
+		if (other.gameObject.name == "Player") {
+			oob.danger = false;
+			Debug.Log ("Object entered");
+		}
 	}
 }
