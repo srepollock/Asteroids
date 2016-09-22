@@ -13,14 +13,14 @@ public class BoundaryCollision : MonoBehaviour {
 	}
 
 	void OnTriggerExit(Collider other) {
-		if (other.gameObject.name == "Player") {
+		if (other.gameObject.tag == "Player") {
 			oob.danger = true;
 			Debug.Log ("Object exited");
 		}
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.name == "Player") {
+		if (other.gameObject.tag == "Player") {
 			oob.danger = false;
 			Debug.Log ("Object entered");
 		}

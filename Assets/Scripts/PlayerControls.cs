@@ -9,11 +9,23 @@ public class PlayerControls : MonoBehaviour {
 	public int currentSpeed = 10; // Initially is the slowest speed
 	public float rotateSpeed = 45.0f;
 
+    public GameObject shot;
+    public Transform shotSpawn;
+    public float fireRate = 0.5f;
+    private float nextFire = 0.0f;
+
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
+    void Update() {
+        if (Input.GetButton("Fire1") && Time.time > nextFire) {
+            nextFire = Time.time + fireRate;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+        }
+    }
+
 	// Update is called once per frame
 	void LateUpdate () {
 		// Spacecraft Roll
@@ -36,6 +48,14 @@ public class PlayerControls : MonoBehaviour {
 		// Move forward based to mouse
 		Vector3 mousePos = (Input.mousePosition - (new Vector3(Screen.width, Screen.height, 0) / 2.0f));
 		transform.Rotate (new Vector3 (-mousePos.y, mousePos.x, -mousePos.x) * 0.025f);
-		transform.Translate (Vector3.forward * Time.deltaTime * currentSpeed);
+		transform.Translate (Vector3.forward * Time.deltaTime * currentSpeed * 2);
+	}
+
+	void OnCollisionEnter(Collision col) {
+		Debug.Log ("collision: " + col.ToString ());
+		if (col.gameObject.tag == "Asteroid") {
+			Debug.Log ("hit asteroid");
+			Destroy (col.gameObject);
+		}
 	}
 }
