@@ -48,7 +48,7 @@ public class PlayerControls : MonoBehaviour {
 		// Move forward based to mouse
 		Vector3 mousePos = (Input.mousePosition - (new Vector3(Screen.width, Screen.height, 0) / 2.0f));
 		transform.Rotate (new Vector3 (-mousePos.y, mousePos.x, -mousePos.x) * 0.025f);
-		transform.Translate (Vector3.forward * Time.deltaTime * currentSpeed * 2);
+		transform.Translate (Vector3.forward * Time.deltaTime * currentSpeed);
 	}
 
 	void OnCollisionEnter(Collision col) {
