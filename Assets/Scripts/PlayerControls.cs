@@ -52,7 +52,6 @@ public class PlayerControls : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col) {
-		Debug.Log ("collision: " + col.ToString ());
 		if (col.gameObject.tag == "Asteroid") {
 			Debug.Log ("hit asteroid");
 			Destroy (col.gameObject);
