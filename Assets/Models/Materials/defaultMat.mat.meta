@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: f7aec6d2bb7182d4589fa832626c7b5b
+timeCreated: 1474093614
+=======
 guid: d65fd50463813854995684fc42284245
 timeCreated: 1473929311
+>>>>>>> player_movement
 licenseType: Free
 NativeFormatImporter:
   userData: 

@@ -4,7 +4,7 @@ using System.Collections;
 public class DestroyByContact : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
-        if(other.tag == "Boundary") {
+        if(other.tag != "Shot") {
             return;
         }
         Destroy(other.gameObject); //Destroy object that entered the collider

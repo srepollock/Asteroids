@@ -36,4 +36,15 @@ public class Eliptical_movement : MonoBehaviour {
 	float MSin(float value)	{
 	    return Mathf.Sin(Mathf.Deg2Rad * value);
 	}
+
+    public void setValues(float ra, float rb, float spd, float rt, float phase, float magnitude, float agl, Vector3 v) {
+        radiusA = ra;
+        radiusB = rb;
+        speed = spd;
+        rtilt = rt;
+        atilt_phase = phase;
+        atilt_severity = magnitude;
+        angle = agl;
+        center = v;
+    }
 }

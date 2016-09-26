@@ -50,4 +50,11 @@ public class PlayerControls : MonoBehaviour {
 		transform.Rotate (new Vector3 (-mousePos.y, mousePos.x, -mousePos.x) * 0.025f);
 		transform.Translate (Vector3.forward * Time.deltaTime * currentSpeed);
 	}
+
+	void OnCollisionEnter(Collision col) {
+		if (col.gameObject.tag == "Asteroid") {
+			Debug.Log ("hit asteroid");
+			Destroy (col.gameObject);
+		}
+	}
 }
