@@ -56,5 +56,10 @@ public class PlayerControls : MonoBehaviour {
 			Debug.Log ("hit asteroid");
 			Destroy (col.gameObject);
 		}
+
+		if (col.gameObject.tag == "Shot") {
+			Debug.Log ("hit own shot");
+			Destroy (col.gameObject);
+		}
 	}
 }
