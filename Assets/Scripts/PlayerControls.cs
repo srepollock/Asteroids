@@ -14,6 +14,8 @@ public class PlayerControls : MonoBehaviour {
     public float fireRate = 0.5f;
     private float nextFire = 0.0f;
 
+    public bool slowingDown = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -35,12 +37,22 @@ public class PlayerControls : MonoBehaviour {
 		} else if (Input.GetKey (KeyCode.D)) {
 			transform.Rotate (0, 0, -Time.deltaTime * rotateSpeed);
 		}
-		// Spacecraft Acceleration/Deceleration
-		if (Input.GetKey (KeyCode.W)) {
-			ModifySpeed (speedIncrease);
-		} else if (Input.GetKey (KeyCode.S)) {
-			ModifySpeed (-speedIncrease);
+
+		// ship slowing down 
+		if (slowingDown) {
+			ModifySpeed(-speedIncrease);
+			if (currentSpeed == minSpeed) {
+				currentSpeed = 0;
+			}
+		} else {
+			// Spacecraft Acceleration/Deceleration
+			if (Input.GetKey (KeyCode.W)) {
+				ModifySpeed (speedIncrease);
+			} else if (Input.GetKey (KeyCode.S)) {
+				ModifySpeed (-speedIncrease);
+			}
 		}
+
 		// Move forward based to mouse
 		Vector3 mousePos = (Input.mousePosition - (new Vector3(Screen.width, Screen.height, 0) / 2.0f));
 		transform.Rotate (new Vector3 (-mousePos.y, mousePos.x, -mousePos.x) * 0.025f);
