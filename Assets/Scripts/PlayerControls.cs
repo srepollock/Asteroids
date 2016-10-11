@@ -37,13 +37,9 @@ public class PlayerControls : MonoBehaviour {
 		}
 		// Spacecraft Acceleration/Deceleration
 		if (Input.GetKey (KeyCode.W)) {
-			currentSpeed += speedIncrease;
-			if (currentSpeed > maxSpeed)
-				currentSpeed = maxSpeed;
+			ModifySpeed (speedIncrease);
 		} else if (Input.GetKey (KeyCode.S)) {
-			currentSpeed -= speedIncrease;
-			if (currentSpeed < minSpeed)
-				currentSpeed = minSpeed;
+			ModifySpeed (-speedIncrease);
 		}
 		// Move forward based to mouse
 		Vector3 mousePos = (Input.mousePosition - (new Vector3(Screen.width, Screen.height, 0) / 2.0f));
@@ -62,4 +58,15 @@ public class PlayerControls : MonoBehaviour {
 			Destroy (col.gameObject);
 		}
 	}
+
+	void ModifySpeed(int speed) {
+		currentSpeed += speed;
+		if (currentSpeed < minSpeed) {
+			currentSpeed = minSpeed;
+		}
+		if (currentSpeed > maxSpeed) {
+			currentSpeed = maxSpeed;
+		}
+	}
+
 }
