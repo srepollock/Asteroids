@@ -25,11 +25,4 @@ public class innerBoundaryCollision : MonoBehaviour {
 			Debug.Log ("Object entered");
 		}
 	}
-
-	void OnTriggerStay(Collider other) {
-		if (other.gameObject.tag == "Player") {
-			oob.danger = true;
-			Debug.Log ("Object staying");
-		}
-	}
 }
