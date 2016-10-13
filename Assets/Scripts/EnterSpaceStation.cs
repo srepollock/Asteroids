@@ -15,18 +15,18 @@ public class EnterSpaceStation : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-        // Destroy(other.gameObject);
-        GameObject gameObject = other.gameObject;
+		if (other.gameObject.tag == "Shot") {
+			Debug.Log ("SS hit shot");
+			Destroy (other.gameObject);
+		} else {
+	        GameObject gameObject = other.gameObject;
 
-        // get playercontrols script
-        PlayerControls script = gameObject.GetComponent<PlayerControls>();
+	        // get playercontrols script
+	        PlayerControls script = gameObject.GetComponent<PlayerControls>();
 
-        Debug.Log ("HIT SS");
-
-        script.slowingDown = true;
-
-        // int curspeedofplayer = script.currentSpeed;
-        // Debug.Log ("" + curspeedofplayer);
-
+	        if (script != null) {
+	        	script.slowingDown = true;
+	        }
+		}
     }
 }

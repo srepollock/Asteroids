@@ -27,6 +27,11 @@ public class AsteroidSpawner : MonoBehaviour {
 			float angle = (float) Random.Range(0, 360);
 			Vector3 v = new Vector3(0,0,0);
 
+			// stops asteroids from not moving at all (or moving at a very low speed)
+			while ((spd <= 1) && (spd >= -1)) {
+				spd = (float) Random.Range(-speedLimit, speedLimit);
+			}
+
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
 		}
 	}
