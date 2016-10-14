@@ -16,6 +16,8 @@ public class PlayerControls : MonoBehaviour {
 
     public bool slowingDown = false;
 
+    public MenuManager menuManager;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -40,9 +42,12 @@ public class PlayerControls : MonoBehaviour {
 
 		// ship slowing down 
 		if (slowingDown) {
-			ModifySpeed(-speedIncrease);
+			ModifySpeed(-speedIncrease * 5);
 			if (currentSpeed == minSpeed) {
 				currentSpeed = 0;
+
+				// change to shop scene
+				menuManager.increaseLevel();
 			}
 		} else {
 			// Spacecraft Acceleration/Deceleration

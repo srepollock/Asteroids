@@ -11,7 +11,10 @@ public class AsteroidSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		spawnAsteroids(numtospawn);
+		// spawnAsteroids(numtospawn);
+		// get player prefs
+		int curlvl = PlayerPrefs.GetInt("currentlevel");
+		spawnAsteroids(curlvl * 10);
 	}
 
 	void spawnAsteroids(int numberToSpawn) {
