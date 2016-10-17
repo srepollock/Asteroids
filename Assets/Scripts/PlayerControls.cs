@@ -20,11 +20,10 @@ public class PlayerControls : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Vector2 c = new Vector2 (Screen.width / 2, Screen.height / 2);
-		deadzone = new Rect (
-			c.x - 10f, // x pos 	top left
-			c.y - 10f, // y pos top left
-			20f, // width
-			20f); // height
+		deadzone = new Rect (c.x - 10f, // x pos 	top left
+							 c.y - 10f, // y pos top left
+							 20f, // width
+							 20f); // height
 	}
 	
     void Update() {
