@@ -8,6 +8,7 @@ public class AsteroidSpawner : MonoBehaviour {
 	public int maxRange = 2400;
 	public int maxMagnitude = 200;
 	public int speedLimit = 10;
+    public int asteroidLevelScaling = 10;
 	public int curAsteroids = 0;
 
 	// Use this for initialization
@@ -15,8 +16,8 @@ public class AsteroidSpawner : MonoBehaviour {
 		// spawnAsteroids(numtospawn);
 		// get player prefs
 		int curlvl = PlayerPrefs.GetInt("currentlevel");
-		spawnAsteroids(curlvl * 10);
-		curAsteroids = (curlvl * 10);
+		spawnAsteroids(curlvl * asteroidLevelScaling);
+		curAsteroids = (curlvl * asteroidLevelScaling);
         Debug.Log("CurrentLevel = " + curlvl);
 	}
 
