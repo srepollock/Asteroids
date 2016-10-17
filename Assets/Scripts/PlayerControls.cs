@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerControls : MonoBehaviour {
 
 	public int minSpeed = 10;
-	public int maxSpeed = 100;
+	public int maxSpeed = 75;
 	private int speedIncrease = 5;
 	public int currentSpeed = 10; // Initially is the slowest speed
 	public float rotateSpeed = 45.0f;
