@@ -20,13 +20,19 @@ public class EnterSpaceStation : MonoBehaviour {
 			Destroy (other.gameObject);
 		} else {
 	        GameObject gameObject = other.gameObject;
+            GameObject sancho = GameObject.Find("Sancho");
 
-	        // get playercontrols script
-	        PlayerControls script = gameObject.GetComponent<PlayerControls>();
+            // get playercontrols script
+            PlayerControls script = gameObject.GetComponent<PlayerControls>();
+            AsteroidSpawner asteroidSpawnerScript = sancho.GetComponent<AsteroidSpawner>();
 
-	        if (script != null) {
-	        	script.slowingDown = true;
-	        }
+            if (asteroidSpawnerScript.curAsteroids == 0)
+            {
+                if (script != null)
+                {
+                    script.slowingDown = true;
+                }
+            }
 		}
     }
 }

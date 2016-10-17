@@ -17,6 +17,7 @@ public class AsteroidSpawner : MonoBehaviour {
 		int curlvl = PlayerPrefs.GetInt("currentlevel");
 		spawnAsteroids(curlvl * 10);
 		curAsteroids = (curlvl * 10);
+        Debug.Log("CurrentLevel = " + curlvl);
 	}
 
 	void spawnAsteroids(int numberToSpawn) {
