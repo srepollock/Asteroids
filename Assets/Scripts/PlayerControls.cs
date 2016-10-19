@@ -106,7 +106,7 @@ public class PlayerControls : MonoBehaviour {
 		if (deadzone.Contains (Input.mousePosition)) {
 			mousePos = Vector3.zero;
 		}
-		transform.Rotate (new Vector3 (-mousePos.y, mousePos.x, -mousePos.x) * 0.025f);
+		transform.Rotate (new Vector3 (-mousePos.y, mousePos.x, -mousePos.x) * 0.005f);
 		transform.Translate (Vector3.forward * Time.deltaTime * currentSpeed);
 	}
 
