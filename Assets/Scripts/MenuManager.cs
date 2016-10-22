@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour {
 
+    private int PlayerMaxHealthInitial = 100;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -17,6 +19,12 @@ public class MenuManager : MonoBehaviour {
 	public void startGame() {
 		// set level to 1
 		PlayerPrefs.SetInt("currentlevel", 1);
+
+        // set player max health
+        PlayerPrefs.SetInt("playermaxhealth", PlayerMaxHealthInitial);
+
+        // set player current health
+        PlayerPrefs.SetInt("playerhealth", PlayerMaxHealthInitial);
 
 		goToScene("alpha");
 	}
