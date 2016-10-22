@@ -3,15 +3,23 @@ using System.Collections;
 
 public class PlayerControls : MonoBehaviour {
 
+    // damage variables
+    public int SMALL_ASTEROID_DAMAGE = 10;
+    public int MEDIUM_ASTEROID_DAMAGE = 20;
+
+    // movement variables
 	public int minSpeed = 10;
 	public int maxSpeed = 75;
 	private int speedIncrease = 5;
 	public int currentSpeed = 10; // Initially is the slowest speed
 	public float rotateSpeed = 45.0f;
 	public bool slowingDown = false;
+
 	public MenuManager menuManager;
     public GameObject shot;
     public Transform shotSpawn;
+
+    // shoooting variables
     public float fireRate = 0.01f;
 
     // shot deviation variables
@@ -122,7 +130,7 @@ public class PlayerControls : MonoBehaviour {
 			Destroy (col.gameObject);
 
             Debug.Log("Player health before collison: " + PlayerPrefs.GetInt("playerhealth"));
-            PlayerTakeDamage(10);
+            PlayerTakeDamage(SMALL_ASTEROID_DAMAGE);
             Debug.Log("Player health after collison: " + PlayerPrefs.GetInt("playerhealth"));
             asteroidSpawner.asteroidDestroyed();
             Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
@@ -146,5 +154,8 @@ public class PlayerControls : MonoBehaviour {
 
     void PlayerTakeDamage(int damage) {
         PlayerPrefs.SetInt("playerhealth", PlayerPrefs.GetInt("playerhealth") - damage);
+        if(PlayerPrefs.GetInt("playerhealth") <= 0) {
+            menuManager.goToScene("end_screen");
+        }
     }
 }

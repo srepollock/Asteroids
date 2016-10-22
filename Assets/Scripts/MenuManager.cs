@@ -17,17 +17,28 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	public void startGame() {
-		// set level to 1
-		PlayerPrefs.SetInt("currentlevel", 1);
+        setupGame();
+
+		goToScene("alpha");
+	}
+
+    public void endGame() {
+        setupGame();
+
+        goToScene("main_menu");
+    }
+
+    // Reset key values in the game.
+    public void setupGame() {
+        // set level to 1
+        PlayerPrefs.SetInt("currentlevel", 1);
 
         // set player max health
         PlayerPrefs.SetInt("playermaxhealth", PlayerMaxHealthInitial);
 
         // set player current health
         PlayerPrefs.SetInt("playerhealth", PlayerMaxHealthInitial);
-
-		goToScene("alpha");
-	}
+    }
 
     public void goToScene(string scene) {
         SceneManager.LoadScene(scene);
