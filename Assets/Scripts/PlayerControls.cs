@@ -28,14 +28,20 @@ public class PlayerControls : MonoBehaviour {
 
 	private Rect deadzone;
 
-	// Use this for initialization
-	void Start () {
+    private GameObject sancho;
+    private AsteroidSpawner asteroidSpawner;
+
+    // Use this for initialization
+    void Start () {
 		Vector2 c = new Vector2 (Screen.width / 2, Screen.height / 2);
 		deadzone = new Rect (c.x - 10f, // x pos top left
 							 c.y - 10f, // y pos top left
 							 40f, // width
 							 40f); // height
-	}
+
+        sancho = GameObject.Find("Sancho");
+        asteroidSpawner = sancho.GetComponent<AsteroidSpawner>();
+    }
 	
     void Update() {
         if ((Input.GetButton("Fire1")) && (Time.time > nextFire)) {
@@ -114,7 +120,13 @@ public class PlayerControls : MonoBehaviour {
 		if (col.gameObject.tag == "Asteroid") {
 			Debug.Log ("hit asteroid");
 			Destroy (col.gameObject);
-		}
+
+            Debug.Log("Player health before collison: " + PlayerPrefs.GetInt("playerhealth"));
+            PlayerTakeDamage(10);
+            Debug.Log("Player health after collison: " + PlayerPrefs.GetInt("playerhealth"));
+            asteroidSpawner.asteroidDestroyed();
+            Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
+        }
 
 		if (col.gameObject.tag == "Shot") {
 			Debug.Log ("hit own shot");
@@ -132,4 +144,7 @@ public class PlayerControls : MonoBehaviour {
 		}
 	}
 
+    void PlayerTakeDamage(int damage) {
+        PlayerPrefs.SetInt("playerhealth", PlayerPrefs.GetInt("playerhealth") - damage);
+    }
 }

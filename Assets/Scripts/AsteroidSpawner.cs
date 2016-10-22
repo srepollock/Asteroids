@@ -42,4 +42,8 @@ public class AsteroidSpawner : MonoBehaviour {
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
 		}
 	}
+
+    public void asteroidDestroyed() {
+        curAsteroids--;
+    }
 }
