@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerControls : MonoBehaviour {
 
     // damage variables
-    public int SMALL_ASTEROID_DAMAGE = 10;
+    public int SMALL_ASTEROID_DAMAGE = 50;
     public int MEDIUM_ASTEROID_DAMAGE = 20;
 
     // movement variables
