@@ -38,7 +38,25 @@ public class DestroyByContact : MonoBehaviour {
                 
                 if (asteroidType == "Small") {
                     Destroy(gameObject); //Destroy object this script is attatched to
-                    asteroidSpawner.asteroidDestroyed(); //Decrement amount of asteroids
+                    asteroidSpawner.asteroidDestroyed("Small"); //Decrease amount of asteroids
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
+
+                if (asteroidType == "Medium") {
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed("Medium"); //Increase amount of asteroids
+                    asteroidSpawner.explodeAsteroid("Medium", moveScript.radiusA, moveScript.radiusB, 
+                                                    moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
+                                                    moveScript.angle, moveScript.center);
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
+
+                if (asteroidType == "Large") {
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed("Large"); //Increase amount of asteroids
+                    asteroidSpawner.explodeAsteroid("Large", moveScript.radiusA, moveScript.radiusB, 
+                                                    moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
+                                                    moveScript.angle, moveScript.center);
                     Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
                 }
             }
@@ -49,5 +67,7 @@ public class DestroyByContact : MonoBehaviour {
         asteroidType = size;
     }
 
-
+    public int getRemainingAsteroidHealth() {
+        return asteroidHealth;
+    }
 }

@@ -127,10 +127,14 @@ public class PlayerControls : MonoBehaviour {
 	void OnCollisionEnter(Collision col) {
 		if (col.gameObject.tag == "Asteroid") {
 			Debug.Log ("hit asteroid");
+
+			int dmg = col.gameObject.GetComponent<DestroyByContact>().getRemainingAsteroidHealth();
+
 			Destroy (col.gameObject);
 
             Debug.Log("Player health before collison: " + PlayerPrefs.GetInt("playerhealth"));
-            PlayerTakeDamage(SMALL_ASTEROID_DAMAGE);
+            Debug.Log("Taking " + dmg + " Damage");
+            PlayerTakeDamage(dmg);
             Debug.Log("Player health after collison: " + PlayerPrefs.GetInt("playerhealth"));
             asteroidSpawner.asteroidDestroyed();
             Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
