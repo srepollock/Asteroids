@@ -16,12 +16,14 @@ public class AsteroidSpawner : MonoBehaviour {
 		// spawnAsteroids(numtospawn);
 		// get player prefs
 		int curlvl = PlayerPrefs.GetInt("currentlevel");
-		spawnAsteroids(curlvl * asteroidLevelScaling);
-		curAsteroids = (curlvl * asteroidLevelScaling);
+		spawnSmallAsteroids(curlvl * asteroidLevelScaling);
+		spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
+		spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
+		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling/2) + (curlvl * asteroidLevelScaling / 10);
         Debug.Log("CurrentLevel = " + curlvl);
 	}
 
-	void spawnAsteroids(int numberToSpawn) {
+	void spawnSmallAsteroids(int numberToSpawn) {
 		for (int i = 0; i < numberToSpawn; i++) {
 			// spawn a random asteroid
 			GameObject asteroidclone = Instantiate(testeroid);
@@ -40,6 +42,53 @@ public class AsteroidSpawner : MonoBehaviour {
 			}
 
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
+			asteroidclone.GetComponent<DestroyByContact>().setSize("Small");
+		}
+	}
+
+	void spawnMediumAsteroids(int numberToSpawn) {
+		for (int i = 0; i < numberToSpawn; i++) {
+			// spawn a random asteroid
+			GameObject asteroidclone = Instantiate(testeroid);
+			float ra = (float) Random.Range(minRange, maxRange);
+			float rb = (float) Random.Range(minRange, maxRange);
+			float spd = (float) Random.Range(-speedLimit, speedLimit);
+			float rt = (float) Random.Range(0,360);
+			float phase = (float) Random.Range(0, 2);
+			float magnitude = (float) Random.Range(0, maxMagnitude);
+			float angle = (float) Random.Range(0, 360);
+			Vector3 v = new Vector3(0,0,0);
+
+			// stops asteroids from not moving at all (or moving at a very low speed)
+			while ((spd <= 1) && (spd >= -1)) {
+				spd = (float) Random.Range(-speedLimit, speedLimit);
+			}
+
+			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
+			asteroidclone.GetComponent<DestroyByContact>().setSize("Medium");
+		}
+	}
+
+	void spawnLargeAsteroids(int numberToSpawn) {
+		for (int i = 0; i < numberToSpawn; i++) {
+			// spawn a random asteroid
+			GameObject asteroidclone = Instantiate(testeroid);
+			float ra = (float) Random.Range(minRange, maxRange);
+			float rb = (float) Random.Range(minRange, maxRange);
+			float spd = (float) Random.Range(-speedLimit, speedLimit);
+			float rt = (float) Random.Range(0,360);
+			float phase = (float) Random.Range(0, 2);
+			float magnitude = (float) Random.Range(0, maxMagnitude);
+			float angle = (float) Random.Range(0, 360);
+			Vector3 v = new Vector3(0,0,0);
+
+			// stops asteroids from not moving at all (or moving at a very low speed)
+			while ((spd <= 1) && (spd >= -1)) {
+				spd = (float) Random.Range(-speedLimit, speedLimit);
+			}
+
+			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
+			asteroidclone.GetComponent<DestroyByContact>().setSize("Large");
 		}
 	}
 

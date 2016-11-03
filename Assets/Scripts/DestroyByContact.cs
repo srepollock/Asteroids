@@ -2,11 +2,11 @@
 using System.Collections;
 using System;
 
-
-
 public class DestroyByContact : MonoBehaviour {
     GameObject sancho;
     AsteroidSpawner asteroidSpawner;
+
+    Eliptical_movement moveScript;
 
     // health variables
     enum asteroidTypeHealth : int { Small = 100, Medium = 200, Large = 300 };
@@ -18,6 +18,7 @@ public class DestroyByContact : MonoBehaviour {
     {
         sancho = GameObject.Find("Sancho");
         asteroidSpawner = sancho.GetComponent<AsteroidSpawner>();
+        moveScript = GetComponent<Eliptical_movement>();
 
         //Set the health of the asteroid depending on the type
         asteroidMaxHealth = (int)Enum.Parse(typeof(asteroidTypeHealth), asteroidType);
@@ -34,10 +35,19 @@ public class DestroyByContact : MonoBehaviour {
             Destroy(other.gameObject); //Destroy object that entered the collider
             Debug.Log(asteroidHealth);
             if (asteroidHealth <= 0) {
-                Destroy(gameObject); //Destroy object this script is attatched to
-                asteroidSpawner.asteroidDestroyed(); //Decrement amount of asteroids
-                Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
+                
+                if (asteroidType == "Small") {
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed(); //Decrement amount of asteroids
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
             }
         }
     }
+
+    public void setSize(string size) {
+        asteroidType = size;
+    }
+
+
 }
