@@ -16,13 +16,17 @@ public class AsteroidSpawner : MonoBehaviour {
 		// spawnAsteroids(numtospawn);
 		// get player prefs
 		int curlvl = PlayerPrefs.GetInt("currentlevel");
-		/*
+		
 		spawnSmallAsteroids(curlvl * asteroidLevelScaling);
 		spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
-		*/
-		spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
-		// curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling/2) + (curlvl * asteroidLevelScaling / 10);
-		curAsteroids = (curlvl * asteroidLevelScaling / 10);
+				
+		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling/2) + (curlvl * asteroidLevelScaling / 10);
+
+		// Lines used during testing
+		//spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
+		// curAsteroids = (curlvl * asteroidLevelScaling / 10);
+
+
         Debug.Log("CurrentLevel = " + curlvl);
 	}
 
