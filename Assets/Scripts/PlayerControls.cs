@@ -3,15 +3,23 @@ using System.Collections;
 
 public class PlayerControls : MonoBehaviour {
 
+    // damage variables
+    public int SMALL_ASTEROID_DAMAGE = 50;
+    public int MEDIUM_ASTEROID_DAMAGE = 20;
+
+    // movement variables
 	public int minSpeed = 10;
 	public int maxSpeed = 75;
 	private int speedIncrease = 5;
 	public int currentSpeed = 10; // Initially is the slowest speed
 	public float rotateSpeed = 45.0f;
 	public bool slowingDown = false;
+
 	public MenuManager menuManager;
     public GameObject shot;
     public Transform shotSpawn;
+
+    // shoooting variables
     public float fireRate = 0.01f;
 
     // shot deviation variables
@@ -26,16 +34,25 @@ public class PlayerControls : MonoBehaviour {
     private float bulletStrayY = 0;
     private float bulletStrayZ = 0;
 
-	private Rect deadzone;
+	private Circle deadzone;
 
-	// Use this for initialization
-	void Start () {
+    private GameObject sancho;
+    private AsteroidSpawner asteroidSpawner;
+
+    // Use this for initialization
+    void Start () {
 		Vector2 c = new Vector2 (Screen.width / 2, Screen.height / 2);
-		deadzone = new Rect (c.x - 10f, // x pos top left
-							 c.y - 10f, // y pos top left
-							 40f, // width
-							 40f); // height
-	}
+		// deadzone = new Rect (c.x - 10f, // x pos top left
+		// 					 c.y - 10f, // y pos top left
+		// 					 40f, // width
+		// 					 40f); // height
+		deadzone = new Circle(c.x,
+							  c.y,
+							  20f);
+
+        sancho = GameObject.Find("Sancho");
+        asteroidSpawner = sancho.GetComponent<AsteroidSpawner>();
+    }
 	
     void Update() {
         if ((Input.GetButton("Fire1")) && (Time.time > nextFire)) {
@@ -113,8 +130,18 @@ public class PlayerControls : MonoBehaviour {
 	void OnCollisionEnter(Collision col) {
 		if (col.gameObject.tag == "Asteroid") {
 			Debug.Log ("hit asteroid");
+
+			int dmg = col.gameObject.GetComponent<DestroyByContact>().getRemainingAsteroidHealth();
+
 			Destroy (col.gameObject);
-		}
+
+            Debug.Log("Player health before collison: " + PlayerPrefs.GetInt("playerhealth"));
+            Debug.Log("Taking " + dmg + " Damage");
+            PlayerTakeDamage(dmg);
+            Debug.Log("Player health after collison: " + PlayerPrefs.GetInt("playerhealth"));
+            asteroidSpawner.asteroidDestroyed();
+            Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
+        }
 
 		if (col.gameObject.tag == "Shot") {
 			Debug.Log ("hit own shot");
@@ -132,4 +159,10 @@ public class PlayerControls : MonoBehaviour {
 		}
 	}
 
+    void PlayerTakeDamage(int damage) {
+        PlayerPrefs.SetInt("playerhealth", PlayerPrefs.GetInt("playerhealth") - damage);
+        if(PlayerPrefs.GetInt("playerhealth") <= 0) {
+            menuManager.goToScene("end_screen");
+        }
+    }
 }
