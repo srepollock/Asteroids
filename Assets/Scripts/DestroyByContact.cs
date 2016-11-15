@@ -1,23 +1,73 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class DestroyByContact : MonoBehaviour {
     GameObject sancho;
     AsteroidSpawner asteroidSpawner;
 
+    Eliptical_movement moveScript;
+
+    // health variables
+    enum asteroidTypeHealth : int { Small = 100, Medium = 200, Large = 300 };
+    public string asteroidType = "Small";
+    private int asteroidMaxHealth = 0;
+    private int asteroidHealth = 0;
+
     void Start()
     {
         sancho = GameObject.Find("Sancho");
         asteroidSpawner = sancho.GetComponent<AsteroidSpawner>();
+        moveScript = GetComponent<Eliptical_movement>();
+
+        //Set the health of the asteroid depending on the type
+        asteroidMaxHealth = (int)Enum.Parse(typeof(asteroidTypeHealth), asteroidType);
+        asteroidHealth = asteroidMaxHealth;
+        Debug.Log(asteroidHealth);
     }
 
 	void OnTriggerEnter(Collider other) {
-        if(other.tag != "Shot") {
+        //Destroyed when hit by a player shot
+        if (other.tag != "Shot") {
             return;
+        } else {
+            asteroidHealth -= PlayerPrefs.GetInt("playershotdamage");
+            Destroy(other.gameObject); //Destroy object that entered the collider
+            Debug.Log(asteroidHealth);
+            if (asteroidHealth <= 0) {
+                
+                if (asteroidType == "Small") {
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed("Small"); //Decrease amount of asteroids
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
+
+                if (asteroidType == "Medium") {
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed("Medium"); //Increase amount of asteroids
+                    asteroidSpawner.explodeAsteroid("Medium", moveScript.radiusA, moveScript.radiusB, 
+                                                    moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
+                                                    moveScript.angle, moveScript.center);
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
+
+                if (asteroidType == "Large") {
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed("Large"); //Increase amount of asteroids
+                    asteroidSpawner.explodeAsteroid("Large", moveScript.radiusA, moveScript.radiusB, 
+                                                    moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
+                                                    moveScript.angle, moveScript.center);
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
+            }
         }
-        Destroy(other.gameObject); //Destroy object that entered the collider
-        Destroy(gameObject); //Destroy object this script is attatched to
-        asteroidSpawner.curAsteroids -= 1; //Decrement amount of asteroids
-        Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
+    }
+
+    public void setSize(string size) {
+        asteroidType = size;
+    }
+
+    public int getRemainingAsteroidHealth() {
+        return asteroidHealth;
     }
 }
