@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour {
 	public int maxSpeed = 400;
 	public int rotationSpeed = 1;
 
+	public float curSpeed;
+
 	// used to determine if we're currently doing a maneuver
 	public bool inManeuver;
 	// keeps track of how long we've been in the maneuver
@@ -45,11 +47,16 @@ public class Enemy : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	// Fixed update is called 200 times per second (1 per physics update)
+	void FixedUpdate () {
 		determineAggroState();
 
-		moveStraight();
+		// moveStraight();
+
+		// note that the forward is Z
+		curSpeed = rb.velocity.magnitude;
+
+		UpwardsDodgeManeuver();
 	}
 
 	void OnCollisionEnter(Collision collision) {
@@ -90,7 +97,28 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void UpwardsDodgeManeuver() {
-
+		if (!inManeuver) {
+			maneuverCounter = 0;
+			inManeuver = true;
+			Debug.Log("Maneuver started");
+		}
+		if (inManeuver) {
+			if (maneuverCounter < 800) {
+				HopUp(massScaling * speed);
+				moveStraight();
+			} else if (maneuverCounter < 2400) {
+				HopDown(massScaling * speed);
+				moveStraight();
+			} else if (maneuverCounter < 3200) {
+				HopUp(massScaling * speed);
+				moveStraight();
+			} else {
+				inManeuver = false;
+				moveStraight();
+				Debug.Log("maneuver done");
+			}
+			maneuverCounter++;
+		}
 	}
 
 	public void CircularDodging() {
@@ -99,7 +127,7 @@ public class Enemy : MonoBehaviour {
 
 	public void ForwardsThrust(float thrust) {
 		// if we are under max speed, add speed
-		if (!transform.forward.magnitude > (massScaling * maxSpeed)) {
+		if ((rb.velocity.magnitude < maxSpeed)) {
 			rb.AddForce(transform.forward * thrust);
 		}
 		
