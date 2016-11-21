@@ -49,6 +49,13 @@ public class Enemy : MonoBehaviour {
 	
 	// Fixed update is called 200 times per second (1 per physics update)
 	void FixedUpdate () {
+		// check if we're dead
+		if (hp <= 0) {
+			// perhaps play an explosion here
+			Destroy(this.gameObject);
+			return;
+		}
+
 		determineAggroState();
 
 		// moveStraight();
@@ -121,7 +128,17 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+
+
 	public void CircularDodging() {
+
+	}
+
+	public void shootStraight() {
+
+	}
+
+	public void angleTowardsPlayer() {
 
 	}
 
