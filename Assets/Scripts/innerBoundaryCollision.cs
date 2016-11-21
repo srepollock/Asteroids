@@ -16,6 +16,7 @@ public class innerBoundaryCollision : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			oob.danger = false;
 			Debug.Log ("Object exited");
+            oob.collided = false;
 		}
 	}
 
@@ -23,6 +24,7 @@ public class innerBoundaryCollision : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			oob.danger = true;
 			Debug.Log ("Object entered");
+            oob.collided = true;
 		}
 	}
 }

@@ -9,12 +9,13 @@ public class OOBscript : MonoBehaviour {
     public Image warningImage;
     GameObject sancho;
     AsteroidSpawner asteroidSpawner;
+    public bool collided;
 
     float minAlpha = 0.2f;
     float maxAlpha = 0.5f;
     bool increasing = true;
     Color32 redWarning = new Color32(255, 0, 0, 100);
-    Color32 blueWarning = new Color32(19, 128, 255, 100);
+    Color32 blueWarning = new Color32(255, 255, 255, 100);
 
     // Use this for initialization
     void Start () {
@@ -32,7 +33,13 @@ public class OOBscript : MonoBehaviour {
             {
                 HUDdanger.text = "Turn Around!";
                 //Debug.Log("alpha: " + warningImage.color.a);
-                flashRed();
+                if (collided)
+                {
+                    flashRed();
+                } else
+                {
+                    flashBlue();
+                }
             }
             else
             {
@@ -88,7 +95,7 @@ public class OOBscript : MonoBehaviour {
     {
         bool performingAction = false;
         warningImage.GetComponent<Image>().color = blueWarning;
-        warningImage.CrossFadeAlpha(0.6f, 3f, false);
+        warningImage.CrossFadeAlpha(maxAlpha + 0.1f, 3f, false);
         if (increasing)
         {
             if (!performingAction)
@@ -97,7 +104,7 @@ public class OOBscript : MonoBehaviour {
                 performingAction = true;
                 //Debug.Log("up renderer alpha: " + warningImage.canvasRenderer.GetAlpha());
             }
-            if (warningImage.canvasRenderer.GetAlpha() >= 0.5f)
+            if (warningImage.canvasRenderer.GetAlpha() >= maxAlpha)
             {
                 increasing = false;
                 performingAction = false;
@@ -112,7 +119,7 @@ public class OOBscript : MonoBehaviour {
                 performingAction = true;
                 //Debug.Log("down renderer alpha: " + warningImage.canvasRenderer.GetAlpha());
             }
-            if (warningImage.canvasRenderer.GetAlpha() <= 0.2f)
+            if (warningImage.canvasRenderer.GetAlpha() <= minAlpha)
             {
                 increasing = true;
                 performingAction = false;
