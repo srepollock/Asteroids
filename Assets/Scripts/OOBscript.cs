@@ -37,10 +37,12 @@ public class OOBscript : MonoBehaviour {
             else
             {
                 HUDdanger.text = "SAFE";
+                clearFlash();
             }
         } else
         {
             HUDdanger.text = "Return to space station";
+            clearFlash();
         }
 	}
 
@@ -117,5 +119,10 @@ public class OOBscript : MonoBehaviour {
                 //Debug.Log("down Done");
             }
         }
+    }
+
+    void clearFlash()
+    {
+        warningImage.canvasRenderer.SetAlpha(0.0f);
     }
 }
