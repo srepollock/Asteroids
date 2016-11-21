@@ -15,6 +15,16 @@ public class Enemy : MonoBehaviour {
 	public bool pitching;
 	public bool yawing;
 
+	public int speed = 0;
+	public int massScaling = 100000;
+	public int maxSpeed = 400;
+	public int rotationSpeed = 1;
+
+	// used to determine if we're currently doing a maneuver
+	public bool inManeuver;
+	// keeps track of how long we've been in the maneuver
+	public int maneuverCounter; 
+
 	public Rigidbody rb;
 
 	// Use this for initialization
@@ -38,12 +48,10 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		determineAggroState();
-		// check if we're rolling, yawing, or pitching on purpose
-		// if we're not doing it on purpose, straighten fix it.
-		straightenup();
+
+		moveStraight();
 	}
 
-	// should be called because there's a rigid body on the prefab.
 	void OnCollisionEnter(Collision collision) {
 		/*
     	// Debug-draw all contact points and normals
@@ -55,23 +63,13 @@ public class Enemy : MonoBehaviour {
         if (collision.relativeVelocity.magnitude > 2)
             audio.Play();
         */
+
+        if (collision.gameObject.tag == "Shot") {
+        	Destroy(collision.gameObject);
+        }
+
         Debug.Log("Enemy ship hit");
         
-    }
-
-    public void straightenup() {
-    	if (!yawing) {
-
-    	}
-
-    	if (!rolling) {
-
-    	}
-
-    	if (!pitching) {
-
-    	}
-
     }
 
 	public void determineAggroState() {
@@ -84,6 +82,13 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+	// note that we need to factor in the huge mass i put on the ship. I put huge mass in order to prevent bullets from skewing
+	// movement of the ship when the bullets hit
+	public void moveStraight() {
+		// Debug.Log("Enemy ship moving");
+		ForwardsThrust(massScaling * speed);
+	}
+
 	public void UpwardsDodgeManeuver() {
 
 	}
@@ -93,50 +98,58 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void ForwardsThrust(float thrust) {
-		rb.AddForce(transform.forward * thrust);
+		// if we are under max speed, add speed
+		if (!transform.forward.magnitude > (massScaling * maxSpeed)) {
+			rb.AddForce(transform.forward * thrust);
+		}
+		
 	}
 
 	public void ReverseThrust(float thrust) {
 		rb.AddForce(transform.forward * -1 * thrust);
 	}
 
+	// don't need to do speed checks for left and right thrust since every time we use left and right thrust 
+	// we counterfire the thrust to reset it to zero
 	public void LeftThrust(float thrust) {
-
+		rb.AddForce(transform.right * thrust);
 	}
 
 	public void RightThrust(float thrust) {
-
+		rb.AddForce(transform.right * -1 * thrust);
 	}
 
-	public void PitchUp(float thrust) {
-
+	public void PitchUp() {
+		rb.transform.Rotate(rotationSpeed * -1, 0, 0, Space.Self);
 	}
 
-	public void PitchDown(float thrust) {
-
+	public void PitchDown() {
+		rb.transform.Rotate(rotationSpeed, 0, 0, Space.Self);
 	}
 
-	public void YawRight(float thrust) {
-
+	public void YawRight() {
+		rb.transform.Rotate(0, rotationSpeed, 0, Space.Self);
 	}
 
-	public void YawLeft(float thrust) {
-
+	public void YawLeft() {
+		rb.transform.Rotate(0, rotationSpeed * -1, 0, Space.Self);
 	}
 
-	public void RollLeft(float thrust) {
-
+	public void RollLeft() {
+		rb.transform.Rotate(0, 0, rotationSpeed, Space.Self);
 	}
 
-	public void RollRight(float thrust) {
-
+	public void RollRight() {
+		rb.transform.Rotate(0, 0, rotationSpeed * -1, Space.Self);
 	}
 
+	// don't need to do speed checks for hop thrust since every time we use it
+	// we counterfire the thrust to reset it to zero
 	public void HopUp(float thrust) {
-
+		rb.AddForce(transform.up * thrust);
 	}
 
 	public void HopDown(float thrust) {
-
+		rb.AddForce(transform.up * thrust * -1);
 	}
 }
