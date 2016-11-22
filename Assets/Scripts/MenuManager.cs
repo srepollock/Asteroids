@@ -53,6 +53,9 @@ public class MenuManager : MonoBehaviour {
 
         // set initial damage of player
         PlayerPrefs.SetInt("playershotdamage", PlayerShotDamageInitial);
+
+        // ensure the game is unpaused
+        Time.timeScale = 1.0f;
     }
 
     public void goToScene(string scene) {
