@@ -23,7 +23,7 @@ public class DestroyByContact : MonoBehaviour {
         //Set the health of the asteroid depending on the type
         asteroidMaxHealth = (int)Enum.Parse(typeof(asteroidTypeHealth), asteroidType);
         asteroidHealth = asteroidMaxHealth;
-        Debug.Log(asteroidHealth);
+		Debug.Log("asteroid health = " + asteroidHealth);
     }
 
 	void OnTriggerEnter(Collider other) {
@@ -33,7 +33,7 @@ public class DestroyByContact : MonoBehaviour {
         } else {
             asteroidHealth -= PlayerPrefs.GetInt("playershotdamage");
             Destroy(other.gameObject); //Destroy object that entered the collider
-            Debug.Log(asteroidHealth);
+            Debug.Log("asteroid health = " + asteroidHealth);
             if (asteroidHealth <= 0) {
                 
                 if (asteroidType == "Small") {

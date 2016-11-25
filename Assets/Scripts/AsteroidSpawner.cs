@@ -20,12 +20,11 @@ public class AsteroidSpawner : MonoBehaviour {
 		spawnSmallAsteroids(curlvl * asteroidLevelScaling);
 		spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
 				
-		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling/2) + (curlvl * asteroidLevelScaling / 10);
+		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling / 2); //+ (curlvl * asteroidLevelScaling / 10);
 
 		// Lines used during testing
 		//spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
 		// curAsteroids = (curlvl * asteroidLevelScaling / 10);
-
 
         Debug.Log("CurrentLevel = " + curlvl);
 	}
