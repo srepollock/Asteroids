@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour {
 	public int speed = 0;
 	public int massScaling = 100000;
 	public int maxSpeed = 400;
-	public float rotationSpeed = 0.0005f;
+	public float rotationSpeed = 0.001f;
 
 	public float curSpeed;
 
@@ -65,15 +65,24 @@ public class Enemy : MonoBehaviour {
 
 		determineAggroState();
 
-		// moveStraight();
+		// do aggrostate stuff here, but for beta ai we just need the aggro ai
+		angleTowardsPlayer();
+		moveStraight();
 
+		// shoot if roughly pointing at player
+		Vector3 targetDir = GameObject.Find("PodPlayer").transform.position - transform.position;
+		float angle = Vector3.Angle( targetDir, transform.forward );
+
+		if(angle < 5.0f ) {
+			shootStraight();
+		}
+
+		
 		// note that the forward is Z
 		curSpeed = rb.velocity.magnitude;
 
 		// testing maneuvers
 		// UpwardsDodgeManeuver();
-		angleTowardsPlayer();
-		shootStraight();
 		// RollLeft();
 	}
 
@@ -91,9 +100,8 @@ public class Enemy : MonoBehaviour {
 
         if (collision.gameObject.tag == "Shot") {
         	Destroy(collision.gameObject);
+        	Debug.Log("Enemy ship hit");
         }
-
-        Debug.Log("Enemy ship hit");
         
     }
 
