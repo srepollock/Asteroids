@@ -9,6 +9,10 @@ public class Enemy : MonoBehaviour {
 
 	// 0 is aggressive, 1 is balanced, 2 is defensive.
 	public int aggroState;
+    public GameObject shot;
+    public Transform shotSpawnTop;
+    public Transform shotSpawnBottom;
+    public int shotCooldown = 0;
 
 	// used to determine if bullets are causing us to move in ways we don't want to
 	public bool rolling;
@@ -18,7 +22,7 @@ public class Enemy : MonoBehaviour {
 	public int speed = 0;
 	public int massScaling = 100000;
 	public int maxSpeed = 400;
-	public int rotationSpeed = 1;
+	public float rotationSpeed = 0.001f;
 
 	public float curSpeed;
 
@@ -56,14 +60,30 @@ public class Enemy : MonoBehaviour {
 			return;
 		}
 
+		// shot cooldown
+		shotCooldown--;
+
 		determineAggroState();
 
-		// moveStraight();
+		// do aggrostate stuff here, but for beta ai we just need the aggro ai
+		angleTowardsPlayer();
+		moveStraight();
 
+		// shoot if roughly pointing at player
+		Vector3 targetDir = GameObject.Find("PodPlayer").transform.position - transform.position;
+		float angle = Vector3.Angle( targetDir, transform.forward );
+
+		if(angle < 5.0f ) {
+			shootStraight();
+		}
+
+		
 		// note that the forward is Z
 		curSpeed = rb.velocity.magnitude;
 
-		UpwardsDodgeManeuver();
+		// testing maneuvers
+		// UpwardsDodgeManeuver();
+		// RollLeft();
 	}
 
 	void OnCollisionEnter(Collision collision) {
@@ -80,9 +100,8 @@ public class Enemy : MonoBehaviour {
 
         if (collision.gameObject.tag == "Shot") {
         	Destroy(collision.gameObject);
+        	Debug.Log("Enemy ship hit");
         }
-
-        Debug.Log("Enemy ship hit");
         
     }
 
@@ -135,10 +154,22 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void shootStraight() {
-
+		if (shotCooldown <= 0) {
+			GameObject newshot = (GameObject)Instantiate(shot, shotSpawnTop.position, shotSpawnTop.rotation);
+			GameObject newshot2 = (GameObject)Instantiate(shot, shotSpawnBottom.position, shotSpawnBottom.rotation);
+			shotCooldown = 400;
+		}
 	}
 
 	public void angleTowardsPlayer() {
+		// find where player is
+		Transform target = GameObject.Find("PodPlayer").transform;
+
+		Vector3 targetDir = target.position - transform.position;
+        float step = rotationSpeed;
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+        Debug.DrawRay(transform.position, newDir, Color.red);
+        transform.rotation = Quaternion.LookRotation(newDir);
 
 	}
 
@@ -164,31 +195,33 @@ public class Enemy : MonoBehaviour {
 		rb.AddForce(transform.right * -1 * thrust);
 	}
 
+	// note that the *30 for the rotations is neccesary otherwise it rotates REALLY REALLY SLOW since the rotation speed is hella low
+	// the rotation speed has to be hella low in order for "angle towards player" function to actually angle slowly
 	public void PitchUp() {
-		rb.transform.Rotate(rotationSpeed * -1, 0, 0, Space.Self);
+		rb.transform.Rotate(rotationSpeed * 30 * -1, 0, 0, Space.Self);
 	}
 
 	public void PitchDown() {
-		rb.transform.Rotate(rotationSpeed, 0, 0, Space.Self);
+		rb.transform.Rotate(rotationSpeed * 30, 0, 0, Space.Self);
 	}
 
 	public void YawRight() {
-		rb.transform.Rotate(0, rotationSpeed, 0, Space.Self);
+		rb.transform.Rotate(0, rotationSpeed * 30, 0, Space.Self);
 	}
 
 	public void YawLeft() {
-		rb.transform.Rotate(0, rotationSpeed * -1, 0, Space.Self);
+		rb.transform.Rotate(0, rotationSpeed * 30 * -1, 0, Space.Self);
 	}
 
 	public void RollLeft() {
-		rb.transform.Rotate(0, 0, rotationSpeed, Space.Self);
+		rb.transform.Rotate(0, 0, rotationSpeed * 30, Space.Self);
 	}
 
 	public void RollRight() {
-		rb.transform.Rotate(0, 0, rotationSpeed * -1, Space.Self);
+		rb.transform.Rotate(0, 0, rotationSpeed * 30 * -1, Space.Self);
 	}
 
-	// don't need to do speed checks for hop thrust since every time we use it
+	// don't need to do speed checks for hop thrust since every time we use it (only in maneuvers)
 	// we counterfire the thrust to reset it to zero
 	public void HopUp(float thrust) {
 		rb.AddForce(transform.up * thrust);
