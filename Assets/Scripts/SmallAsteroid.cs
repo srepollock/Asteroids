@@ -19,14 +19,13 @@ public class SmallAsteroid : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col) {
 		if (col.gameObject.tag == "Player") {
-			PlayerHealth playerHealth = col.gameObject.GetComponent<PlayerHealth>();
-			playerHealth.TakeDamage(ASTEROIDDAMAGE - currentHealth);
+			PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+			playerHealth.TakeDamage(currentHealth);
 			Death();
 		}
 		if (col.gameObject.tag == "Shot") {
 			TakeDamage(PlayerShot.SHOTDAMAGE);
 			if (currentHealth <= 0) {
-				Debug.Log("Asteroid destroyed");
 				Death();
 			}
 		}

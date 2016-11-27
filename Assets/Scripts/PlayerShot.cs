@@ -7,7 +7,8 @@ public class PlayerShot : MonoBehaviour {
 
     void OnCollisionEnter(Collision col) {
         if (col.gameObject.tag == "Asteroid") {
-            Destroy(this);
+            Debug.Log("Shot hit asteroid");
+            Destroy(this.gameObject);
         }
     }
 
