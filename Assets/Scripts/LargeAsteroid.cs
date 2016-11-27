@@ -20,8 +20,9 @@ public class LargeAsteroid : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col) {
 		if (col.gameObject.tag == "Player") {
-			PlayerHealth playerHealth = col.gameObject.GetComponent<PlayerHealth>();
+			PlayerHealth playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
 			playerHealth.TakeDamage(ASTEROIDDAMAGE - currentHealth);
+			Death();
 		}
 		if (col.gameObject.tag == "Shot") {
 			TakeDamage(PlayerShot.SHOTDAMAGE);
@@ -42,5 +43,11 @@ public class LargeAsteroid : MonoBehaviour {
 										moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
 										moveScript.angle, moveScript.center);
 		Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);  
+	}
+
+	void Death(){
+		Destroy(gameObject); //Destroy object this script is attatched to
+		asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
+		Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
 	}
 }

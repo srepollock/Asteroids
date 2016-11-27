@@ -20,7 +20,6 @@ public class PlayerHealth : MonoBehaviour {
 	public void TakeDamage (int damage) {
 		currentHealth -= damage;
 		healthSlider.value = currentHealth;
-		Debug.Log("Player health: " + currentHealth);
 		PlayerPrefs.SetInt("playerhealth", currentHealth);
 		if (currentHealth <= 0 && !isDead) {
 			Death();
