@@ -3,6 +3,9 @@ using System.Collections;
 
 public class AsteroidSpawner : MonoBehaviour {
 	public GameObject testeroid;
+	public GameObject[] smallroids;
+	public GameObject[] medroids;
+	public GameObject[] largeroids;
 	public int numtospawn = 5;
 	public int minRange = 1300;
 	public int maxRange = 2400;
@@ -20,11 +23,8 @@ public class AsteroidSpawner : MonoBehaviour {
 		spawnSmallAsteroids(curlvl * asteroidLevelScaling);
 		spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
 				
-		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling / 2); //+ (curlvl * asteroidLevelScaling / 10);
-
-		// Lines used during testing
-		//spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
-		// curAsteroids = (curlvl * asteroidLevelScaling / 10);
+		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling / 2) + (curlvl * asteroidLevelScaling / 10);
+		spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
 
         Debug.Log("CurrentLevel = " + curlvl);
 	}
@@ -32,7 +32,7 @@ public class AsteroidSpawner : MonoBehaviour {
 	void spawnSmallAsteroids(int numberToSpawn) {
 		for (int i = 0; i < numberToSpawn; i++) {
 			// spawn a random asteroid
-			GameObject asteroidclone = Instantiate(testeroid);
+			GameObject asteroidclone = Instantiate(smallroids[i % smallroids.Length]);
 			float ra = (float) Random.Range(minRange, maxRange);
 			float rb = (float) Random.Range(minRange, maxRange);
 			float spd = (float) Random.Range(-speedLimit, speedLimit);
