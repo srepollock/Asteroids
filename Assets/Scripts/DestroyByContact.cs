@@ -2,7 +2,9 @@
 using System.Collections;
 using System;
 
+// DEPRECATED
 public class DestroyByContact : MonoBehaviour {
+    /*
     GameObject sancho;
     AsteroidSpawner asteroidSpawner;
 
@@ -38,7 +40,7 @@ public class DestroyByContact : MonoBehaviour {
                 
                 if (asteroidType == "Small") {
                     Destroy(gameObject); //Destroy object this script is attatched to
-                    asteroidSpawner.asteroidDestroyed("Small"); //Decrease amount of asteroids
+                    asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
                     Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
                 }
 
@@ -70,4 +72,5 @@ public class DestroyByContact : MonoBehaviour {
     public int getRemainingAsteroidHealth() {
         return asteroidHealth;
     }
+    */
 }

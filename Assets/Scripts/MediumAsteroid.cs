@@ -37,7 +37,7 @@ public class MediumAsteroid : MonoBehaviour {
 
 	void SpawnSmall() {
 		Destroy(gameObject); //Destroy object this script is attatched to
-		asteroidSpawner.asteroidDestroyed("Medium"); //Increase amount of asteroids
+		asteroidSpawner.asteroidDestroyed(); 
 		asteroidSpawner.explodeAsteroid("Medium", moveScript.radiusA, moveScript.radiusB, 
 										moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
 										moveScript.angle, moveScript.center);

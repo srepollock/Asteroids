@@ -22,8 +22,6 @@ public class AsteroidSpawner : MonoBehaviour {
 		
 		spawnSmallAsteroids(curlvl * asteroidLevelScaling);
 		spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
-				
-		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling / 2) + (curlvl * asteroidLevelScaling / 10);
 		spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
 
         Debug.Log("CurrentLevel = " + curlvl);
@@ -33,6 +31,8 @@ public class AsteroidSpawner : MonoBehaviour {
 		for (int i = 0; i < numberToSpawn; i++) {
 			// spawn a random asteroid
 			GameObject asteroidclone = Instantiate(smallroids[i % smallroids.Length]);
+			curAsteroids++;
+			
 			float ra = (float) Random.Range(minRange, maxRange);
 			float rb = (float) Random.Range(minRange, maxRange);
 			float spd = (float) Random.Range(-speedLimit, speedLimit);
@@ -54,7 +54,9 @@ public class AsteroidSpawner : MonoBehaviour {
 	void spawnMediumAsteroids(int numberToSpawn) {
 		for (int i = 0; i < numberToSpawn; i++) {
 			// spawn a random asteroid
-			GameObject asteroidclone = Instantiate(testeroid);
+			GameObject asteroidclone = Instantiate(medroids[i % medroids.Length]);
+			curAsteroids++;
+
 			float ra = (float) Random.Range(minRange, maxRange);
 			float rb = (float) Random.Range(minRange, maxRange);
 			float spd = (float) Random.Range(-speedLimit/2, speedLimit/2);
@@ -76,7 +78,9 @@ public class AsteroidSpawner : MonoBehaviour {
 	void spawnLargeAsteroids(int numberToSpawn) {
 		for (int i = 0; i < numberToSpawn; i++) {
 			// spawn a random asteroid
-			GameObject asteroidclone = Instantiate(testeroid);
+			GameObject asteroidclone = Instantiate(largeroids[i % largeroids.Length]);
+			curAsteroids++;
+
 			float ra = (float) Random.Range(minRange, maxRange);
 			float rb = (float) Random.Range(minRange, maxRange);
 			float spd = (float) Random.Range(-speedLimit/3, speedLimit/3);
@@ -100,16 +104,6 @@ public class AsteroidSpawner : MonoBehaviour {
 		curAsteroids--;
 	}
 
-	// we can use this later on where the player hits asteroids if we want them to explode
-    public void asteroidDestroyed(string size) {
-        if (size == "Small") {
-        	curAsteroids--;
-        }
-        if (size == "Medium" || size == "Large") {
-        	curAsteroids = curAsteroids + 3;
-        }
-    }
-
     // always explode into 4 of smaller size
     public void explodeAsteroid(string size, float ra, float rb, float spd, float rt, float phase, float magnitude, float agl, Vector3 v) {
     	string newSize = "Small";
@@ -121,7 +115,15 @@ public class AsteroidSpawner : MonoBehaviour {
     	// magnitude can change a bit.
     	for (int i = 0; i < 4; i++) {
 			// spawn a random asteroid
-			GameObject asteroidclone = Instantiate(testeroid);
+			GameObject asteroidclone;
+			if (newSize == "Small") {
+				asteroidclone = Instantiate(smallroids[i % smallroids.Length]);
+				curAsteroids++;
+			} else {
+				asteroidclone = Instantiate(medroids[i % medroids.Length]);
+				curAsteroids++;
+			}
+
 			// random radius change
 			float n_ra = (float) Random.Range(-30, 30);
 			float n_rb = (float) Random.Range(-30, 30);
@@ -164,7 +166,6 @@ public class AsteroidSpawner : MonoBehaviour {
 			}
 
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra + n_ra, rb + n_rb, spd + n_spd, rt, phase, magnitude + n_magnitude, agl, v);
-			asteroidclone.GetComponent<DestroyByContact>().setSize(newSize);
 		}
     }
 }
