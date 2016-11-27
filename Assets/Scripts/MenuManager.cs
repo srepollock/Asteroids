@@ -5,12 +5,8 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 
-    private int PlayerMaxHealthInitial = 100;
-    private int PlayerShotDamageInitial = 50;
-
 	// Use this for initialization
 	void Start () {
-
         // on the end_screen scene, update texts
         if (SceneManager.GetActiveScene().name == "end_screen") {
             GameObject scoretextobj = GameObject.Find("ScoreText");
@@ -44,16 +40,6 @@ public class MenuManager : MonoBehaviour {
     public void setupGame() {
         // set level to 1
         PlayerPrefs.SetInt("currentlevel", 1);
-
-        // set player max health
-        PlayerPrefs.SetInt("playermaxhealth", PlayerMaxHealthInitial);
-
-        // set player current health
-        PlayerPrefs.SetInt("playerhealth", PlayerMaxHealthInitial);
-
-        // set initial damage of player
-        PlayerPrefs.SetInt("playershotdamage", PlayerShotDamageInitial);
-
         // ensure the game is unpaused
         Time.timeScale = 1.0f;
     }

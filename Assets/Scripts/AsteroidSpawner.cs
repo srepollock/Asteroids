@@ -48,7 +48,6 @@ public class AsteroidSpawner : MonoBehaviour {
 			}
 
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
-			asteroidclone.GetComponent<DestroyByContact>().setSize("Small");
 		}
 	}
 
@@ -71,7 +70,6 @@ public class AsteroidSpawner : MonoBehaviour {
 			}
 
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
-			asteroidclone.GetComponent<DestroyByContact>().setSize("Medium");
 		}
 	}
 
@@ -94,7 +92,6 @@ public class AsteroidSpawner : MonoBehaviour {
 			}
 
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra, rb, spd, rt, phase, magnitude, angle, v);
-			asteroidclone.GetComponent<DestroyByContact>().setSize("Large");
 		}
 	}
 
@@ -108,7 +105,6 @@ public class AsteroidSpawner : MonoBehaviour {
         if (size == "Small") {
         	curAsteroids--;
         }
-
         if (size == "Medium" || size == "Large") {
         	curAsteroids = curAsteroids + 3;
         }
