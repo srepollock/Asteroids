@@ -125,7 +125,13 @@ public class AsteroidSpawner : MonoBehaviour {
     	// magnitude can change a bit.
     	for (int i = 0; i < 4; i++) {
 			// spawn a random asteroid
-			GameObject asteroidclone = Instantiate(testeroid);
+			GameObject asteroidclone;
+			if (newSize == "Small") {
+				asteroidclone = Instantiate(smallroids[i % smallroids.Length]);
+			} else {
+				asteroidclone = Instantiate(medroids[i % medroids.Length]);
+			}
+			
 			// random radius change
 			float n_ra = (float) Random.Range(-30, 30);
 			float n_rb = (float) Random.Range(-30, 30);
@@ -168,7 +174,6 @@ public class AsteroidSpawner : MonoBehaviour {
 			}
 
 			asteroidclone.GetComponent<Eliptical_movement>().setValues(ra + n_ra, rb + n_rb, spd + n_spd, rt, phase, magnitude + n_magnitude, agl, v);
-			asteroidclone.GetComponent<DestroyByContact>().setSize(newSize);
 		}
     }
 }
