@@ -22,9 +22,13 @@ public class AsteroidSpawner : MonoBehaviour {
 		
 		spawnSmallAsteroids(curlvl * asteroidLevelScaling);
 		spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
-				
-		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling / 2) + (curlvl * asteroidLevelScaling / 10);
 		spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
+
+		curAsteroids = (curlvl * asteroidLevelScaling) + (curlvl * asteroidLevelScaling / 2) + (curlvl * asteroidLevelScaling / 10);
+
+		// testing
+		spawnMediumAsteroids(10);
+		curAsteroids += 10;
 
         Debug.Log("CurrentLevel = " + curlvl);
 	}
@@ -54,7 +58,7 @@ public class AsteroidSpawner : MonoBehaviour {
 	void spawnMediumAsteroids(int numberToSpawn) {
 		for (int i = 0; i < numberToSpawn; i++) {
 			// spawn a random asteroid
-			GameObject asteroidclone = Instantiate(testeroid);
+			GameObject asteroidclone = Instantiate(medroids[i % medroids.Length]);
 			float ra = (float) Random.Range(minRange, maxRange);
 			float rb = (float) Random.Range(minRange, maxRange);
 			float spd = (float) Random.Range(-speedLimit/2, speedLimit/2);
