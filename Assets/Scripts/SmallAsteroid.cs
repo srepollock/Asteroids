@@ -37,7 +37,7 @@ public class SmallAsteroid : MonoBehaviour {
 
 	void Death() {
 		Destroy(gameObject); //Destroy object this script is attatched to
-		asteroidSpawner.asteroidDestroyed("Small"); //Decrease amount of asteroids
+		asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
 		Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
 	}
 }
