@@ -22,6 +22,9 @@ public class PlayerControls : MonoBehaviour {
     // shoooting variables
     public float fireRate = 0.01f;
 
+	//Audio sources
+	public AudioSource thrusterLoop, thrusterEnd, laserBlast, playerHit;
+
     // shot deviation variables
     public float deviationIncreaseAmount = 0.1f;
     public float deviationDecreaseAmount = 0.1f;
@@ -60,6 +63,7 @@ public class PlayerControls : MonoBehaviour {
         {
             if ((Input.GetButton("Fire1")) && (Time.time > nextFire))
             {
+				laserBlast.Play ();
                 nextFire = Time.time + fireRate;
                 GameObject newshot = (GameObject)Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
 
