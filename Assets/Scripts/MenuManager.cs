@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "end_screen") {
             GameObject scoretextobj = GameObject.Find("ScoreText");
             Text scoretext = scoretextobj.GetComponent<Text>();
-            scoretext.text += PlayerPrefs.GetInt("score");
+            scoretext.text += PlayerPrefs.GetInt("totalscore");
 
             GameObject leveltextobj = GameObject.Find("ReachedLevelText");
             Text leveltext = leveltextobj.GetComponent<Text>();
