@@ -45,7 +45,7 @@ public class PlayerControls : MonoBehaviour {
             if (Input.GetKey(KeyCode.A)) {
                 transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
             } else if (Input.GetKey(KeyCode.D)) {
-                transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+                transform.Rotate(0, 0, rotateSpeed * Time.deltaTime * -1f);
             } if (slowingDown) {
                 ModifySpeed(-speedIncrease * 5);
                 if (currentSpeed == minSpeed) {
