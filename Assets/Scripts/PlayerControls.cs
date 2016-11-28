@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class PlayerControls : MonoBehaviour {
 	public int minSpeed = 10;
 	public int maxSpeed = 75;
-	private int speedIncrease = 5;
-	public int currentSpeed = 10; // Initially is the slowest speed
+	private float speedIncrease = 0.5f;
+	public float currentSpeed = 10; // Initially is the slowest speed
 	public float rotateSpeed = 45.0f;
 	public bool slowingDown = false;
 	public MenuManager menuManager;
@@ -40,6 +40,37 @@ public class PlayerControls : MonoBehaviour {
         speedSlider.value = currentSpeed;
     }
 	
+    void FixedUpdate() {
+        if (Time.timeScale == 1.0f) {
+            if (Input.GetKey(KeyCode.A)) {
+                transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+            } else if (Input.GetKey(KeyCode.D)) {
+                transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+            } if (slowingDown) {
+                ModifySpeed(-speedIncrease * 5);
+                if (currentSpeed == minSpeed) {
+                    currentSpeed = 0;
+                    menuManager.increaseLevel();
+                }
+            } else {
+                // Spacecraft Acceleration/Deceleration
+                if (Input.GetKey(KeyCode.W)) {
+                    ModifySpeed(speedIncrease);
+                }
+                else if (Input.GetKey(KeyCode.S)) {
+                    ModifySpeed(-speedIncrease);
+                }
+            }
+
+            Vector3 mousePos = (Input.mousePosition - (new Vector3(Screen.width, Screen.height, 0) / 2.0f));
+            if (deadzone.Contains(Input.mousePosition)) {
+                mousePos = Vector3.zero;
+            }
+            transform.Rotate(new Vector3(-mousePos.y, mousePos.x, -mousePos.x) * rotateSpeed * Time.deltaTime * 0.005f);
+            transform.Translate(Vector3.forward * Time.deltaTime * currentSpeed);
+        }
+    }
+
     void Update() {
         if (Time.timeScale == 1) {
             if ((Input.GetButton("Fire1")) && (Time.time > nextFire)) {
@@ -73,47 +104,13 @@ public class PlayerControls : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void LateUpdate () {
-        if (Time.timeScale == 1.0f) {
-            if (Input.GetKey(KeyCode.A)) {
-                transform.Rotate(0, 0, Time.deltaTime * rotateSpeed);
-            }
-            else if (Input.GetKey(KeyCode.D)) {
-                transform.Rotate(0, 0, -Time.deltaTime * rotateSpeed);
-            }
-            if (slowingDown) {
-                ModifySpeed(-speedIncrease * 5);
-                if (currentSpeed == minSpeed) {
-                    currentSpeed = 0;
-                    menuManager.increaseLevel();
-                }
-            }
-            else {
-                // Spacecraft Acceleration/Deceleration
-                if (Input.GetKey(KeyCode.W)) {
-                    ModifySpeed(speedIncrease);
-                }
-                else if (Input.GetKey(KeyCode.S)) {
-                    ModifySpeed(-speedIncrease);
-                }
-            }
-            Vector3 mousePos = (Input.mousePosition - (new Vector3(Screen.width, Screen.height, 0) / 2.0f));
-            if (deadzone.Contains(Input.mousePosition)) {
-                mousePos = Vector3.zero;
-            }
-            transform.Rotate(new Vector3(-mousePos.y, mousePos.x, -mousePos.x) * 0.005f);
-            transform.Translate(Vector3.forward * Time.deltaTime * currentSpeed);
-        }
-	}
-
 	void OnCollisionEnter(Collision col) {
 		if (col.gameObject.tag == "Shot") {
 			Destroy (col.gameObject);
 		}
 	}
 
-	void ModifySpeed(int speed) {
+	void ModifySpeed(float speed) {
 		currentSpeed += speed;
 		if (currentSpeed < minSpeed) {
 			currentSpeed = minSpeed;
