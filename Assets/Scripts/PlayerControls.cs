@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerControls : MonoBehaviour {
 	public int minSpeed = 10;
@@ -14,6 +15,8 @@ public class PlayerControls : MonoBehaviour {
     public float fireRate = 0.01f;
     public float deviationIncreaseAmount = 0.1f;
     public float deviationDecreaseAmount = 0.1f;
+    public Slider speedSlider;
+
     private float shotDeviationScale = 1;
     private Time mouseHeldDown;
     private Time mouseUp;
@@ -32,6 +35,9 @@ public class PlayerControls : MonoBehaviour {
 		deadzone = new Circle(c.x, c.y, 20f);
         sancho = GameObject.Find("Sancho");
         asteroidSpawner = sancho.GetComponent<AsteroidSpawner>();
+        speedSlider.minValue = minSpeed;
+        speedSlider.maxValue = maxSpeed;
+        speedSlider.value = currentSpeed;
     }
 	
     void Update() {
@@ -115,5 +121,6 @@ public class PlayerControls : MonoBehaviour {
 		if (currentSpeed > maxSpeed) {
 			currentSpeed = maxSpeed;
 		}
+        speedSlider.value = currentSpeed;
 	}
 }
