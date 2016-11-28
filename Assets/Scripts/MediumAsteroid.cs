@@ -6,6 +6,7 @@ public class MediumAsteroid : MonoBehaviour {
 	public static int ASTEROIDDAMAGE = SmallAsteroid.ASTEROIDDAMAGE * 4 + ASTEROIDHEALTH;
 	public static int ASTEROIDHEALTH = 200;
 	public static int ASTEROIDSCORE = 20;
+	public AudioSource explosion;
 
 	int currentHealth;
 	GameObject sancho;
@@ -39,6 +40,7 @@ public class MediumAsteroid : MonoBehaviour {
 	}
 
 	void SpawnSmall() {
+		explosion.Play();
 		asteroidSpawner.asteroidDestroyed(); 
 		asteroidSpawner.explodeAsteroid("Medium", moveScript.radiusA, moveScript.radiusB, 
 										moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
@@ -47,6 +49,7 @@ public class MediumAsteroid : MonoBehaviour {
 	}
 
 	void Death() {
+		explosion.Play();
 		asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
 		Destroy(gameObject); //Destroy object this script is attatched to
 	}

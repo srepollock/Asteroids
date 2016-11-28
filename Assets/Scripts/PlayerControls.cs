@@ -13,6 +13,7 @@ public class PlayerControls : MonoBehaviour {
     public GameObject shot;
     public Transform shotSpawn;
     public float fireRate = 0.01f;
+	public AudioSource thrusterLoop, thrusterEnd, laserBlast, playerHit;
     public float deviationIncreaseAmount = 0.1f;
     public float deviationDecreaseAmount = 0.1f;
     public Slider speedSlider;
@@ -74,6 +75,7 @@ public class PlayerControls : MonoBehaviour {
     void Update() {
         if (Time.timeScale == 1) {
             if ((Input.GetButton("Fire1")) && (Time.time > nextFire)) {
+				laserBlast.Play ();
                 nextFire = Time.time + fireRate;
                 GameObject newshot = (GameObject)Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
                 if (shooting) {
