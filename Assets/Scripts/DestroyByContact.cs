@@ -7,6 +7,7 @@ public class DestroyByContact : MonoBehaviour {
     /*
     GameObject sancho;
     AsteroidSpawner asteroidSpawner;
+	public AudioSource explode;
 
     Eliptical_movement moveScript;
 
@@ -39,11 +40,13 @@ public class DestroyByContact : MonoBehaviour {
             if (asteroidHealth <= 0) {
                 
                 if (asteroidType == "Small") {
+					explode.Play ();
                     Destroy(gameObject); //Destroy object this script is attatched to
                     asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
                     Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
                 }
 
+<<<<<<< HEAD
                 // if (asteroidType == "Medium") {
                 //     Destroy(gameObject); //Destroy object this script is attatched to
                 //     asteroidSpawner.asteroidDestroyed("Medium"); //Increase amount of asteroids
@@ -61,6 +64,27 @@ public class DestroyByContact : MonoBehaviour {
                 //                                     moveScript.angle, moveScript.center);
                 //     Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
                 // }
+=======
+				if (asteroidType == "Medium") {
+					explode.Play ();
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed("Medium"); //Increase amount of asteroids
+                    asteroidSpawner.explodeAsteroid("Medium", moveScript.radiusA, moveScript.radiusB, 
+                                                    moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
+                                                    moveScript.angle, moveScript.center);
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
+
+				if (asteroidType == "Large") {
+					explode.Play ();
+                    Destroy(gameObject); //Destroy object this script is attatched to
+                    asteroidSpawner.asteroidDestroyed("Large"); //Increase amount of asteroids
+                    asteroidSpawner.explodeAsteroid("Large", moveScript.radiusA, moveScript.radiusB, 
+                                                    moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
+                                                    moveScript.angle, moveScript.center);
+                    Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);    
+                }
+>>>>>>> feature/soundeffects
             }
         }
     }
