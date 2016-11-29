@@ -38,6 +38,8 @@ public class PlayerControls : MonoBehaviour {
     private GameObject sancho;
     private AsteroidSpawner asteroidSpawner;
 
+    public bool levelIncreased;
+
     // Use this for initialization
     void Start () {
 		Vector2 c = new Vector2 (Screen.width / 2, Screen.height / 2);
@@ -48,6 +50,7 @@ public class PlayerControls : MonoBehaviour {
         speedSlider.minValue = minSpeed;
         speedSlider.maxValue = maxSpeed;
         speedSlider.value = currentSpeed;
+        levelIncreased = false;
     }
 	
     void FixedUpdate() {
@@ -68,7 +71,10 @@ public class PlayerControls : MonoBehaviour {
                     ModifySpeed(-speedIncrease * 5);
                     if (currentSpeed == minSpeed) {
                         currentSpeed = 0;
-                        menuManager.increaseLevel();
+                        if (!levelIncreased) {
+                            menuManager.increaseLevel();
+                            levelIncreased = true;
+                        }
                     }
                 } else {
                     // Spacecraft Acceleration/Deceleration (THRUST)

@@ -52,14 +52,17 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void goToScene(string scene) {
-        if (LevelFour() == 0) {
-            Debug.Log("Loading boss");
-            SceneManager.LoadScene("boss_fight");
-            
-        } else {
-            Debug.Log("Loading: " + scene);
-            SceneManager.LoadScene(scene);
+        if (scene != "shop_menu") {
+            if (LevelFour() == 0) {
+                Debug.Log("Loading boss");
+                SceneManager.LoadScene("boss_fight");
+            } else {
+                Debug.Log("Loading: " + scene);
+                SceneManager.LoadScene(scene);
 
+            }
+        } else {
+            SceneManager.LoadScene(scene);
         }
     }
 
