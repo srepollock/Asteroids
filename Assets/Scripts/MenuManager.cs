@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "end_screen") {
             GameObject scoretextobj = GameObject.Find("ScoreText");
             Text scoretext = scoretextobj.GetComponent<Text>();
-            scoretext.text += PlayerPrefs.GetInt("score");
+            scoretext.text += PlayerPrefs.GetInt("totalscore");
 
             GameObject leveltextobj = GameObject.Find("ReachedLevelText");
             Text leveltext = leveltextobj.GetComponent<Text>();
@@ -38,10 +38,17 @@ public class MenuManager : MonoBehaviour {
     // Reset key values in the game.
     public void setupGame() {
         // set level to 1
-        PlayerPrefs.SetInt("currentlevel", 3);
+        PlayerPrefs.SetInt("currentlevel", 1);
         // ensure the game is unpaused
         Time.timeScale = 1.0f;
         PlayerScore.SetupPlayerScore();
+
+        // set the current ship
+        PlayerPrefs.SetInt("selectedShip", 0); //default player ship
+        // set the unlocks back
+        PlayerPrefs.SetInt("podPlayer", 1); //default player ship
+        PlayerPrefs.SetInt("tankPlayer", 0);
+        PlayerPrefs.SetInt("assaultPlayer", 0);
     }
 
     public void goToScene(string scene) {
