@@ -53,10 +53,13 @@ public class MenuManager : MonoBehaviour {
 
     public void goToScene(string scene) {
         if (LevelFour() == 0) {
-            SceneManager.LoadScene("boss_fight");
             Debug.Log("Loading boss");
+            SceneManager.LoadScene("boss_fight");
+            
         } else {
+            Debug.Log("Loading: " + scene);
             SceneManager.LoadScene(scene);
+
         }
     }
 

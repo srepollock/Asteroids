@@ -54,7 +54,7 @@ public class ShopManager : MonoBehaviour {
 
     public void tankPlayerSelect()
     {
-        PlayerPrefs.SetInt("unlockedTankPlayer", 0);
+        PlayerPrefs.SetInt("unlockedTankPlayer", 1);
         PlayerPrefs.SetInt("selectedShip", 1);
     }
 
