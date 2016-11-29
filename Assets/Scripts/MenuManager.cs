@@ -44,7 +44,7 @@ public class MenuManager : MonoBehaviour {
         PlayerScore.SetupPlayerScore();
 
         // set the current ship
-        PlayerPrefs.SetInt("selectedShip", 1); //default player ship
+        PlayerPrefs.SetInt("selectedShip", 0); //default player ship
         // set the unlocks back
         PlayerPrefs.SetInt("podPlayer", 1); //default player ship
         PlayerPrefs.SetInt("tankPlayer", 0);
