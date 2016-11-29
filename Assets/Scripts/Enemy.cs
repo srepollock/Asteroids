@@ -4,11 +4,9 @@ using System.Collections;
 public class Enemy : MonoBehaviour {
 	// 0 is scout type, 1 is cruiser type, 2 is mothership type
 	public int type;
-	public int hp;
-	public int hpMax;
 
 	// 0 is aggressive, 1 is balanced, 2 is defensive.
-	public int aggroState;
+	public int agroState;
     public GameObject shot;
     public Transform shotSpawnTop;
     public Transform shotSpawnBottom;
@@ -23,61 +21,37 @@ public class Enemy : MonoBehaviour {
 	public int massScaling = 100000;
 	public int maxSpeed = 400;
 	public float rotationSpeed = 0.001f;
-
 	public float curSpeed;
-
 	// used to determine if we're currently doing a maneuver
 	public bool inManeuver;
 	// keeps track of how long we've been in the maneuver
 	public int maneuverCounter; 
-
 	public Rigidbody rb;
-
+	public BossHealth bh;
 	// Use this for initialization
 	void Start () {
-		if (type == 0) {
-			hp = 500;
-			hpMax = 500;
-		}
-		if (type == 1) {
-			hp = 50000;
-			hpMax = 50000;
-		}
-		if (type == 2) {
-			hp = 1000000;
-			hpMax = 1000000;
-		}
-
 		rb = GetComponent<Rigidbody>();
 	}
 	
 	// Fixed update is called 200 times per second (1 per physics update)
 	void FixedUpdate () {
-		// check if we're dead
-		if (hp <= 0) {
-			// perhaps play an explosion here
-			Destroy(this.gameObject);
-			return;
-		}
-
 		// shot cooldown
 		shotCooldown--;
 
-		determineAggroState();
+		agroState = bh.GetAggressiveState();
 
 		// do aggrostate stuff here, but for beta ai we just need the aggro ai
 		angleTowardsPlayer();
-		moveStraight();
+		//moveStraight();
 
 		// shoot if roughly pointing at player
 		Vector3 targetDir = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
 		float angle = Vector3.Angle( targetDir, transform.forward );
 
 		if(angle < 5.0f ) {
-			shootStraight();
+			//shootStraight();
 		}
 
-		
 		// note that the forward is Z
 		curSpeed = rb.velocity.magnitude;
 
@@ -97,23 +71,7 @@ public class Enemy : MonoBehaviour {
         if (collision.relativeVelocity.magnitude > 2)
             audio.Play();
         */
-
-        if (collision.gameObject.tag == "Shot") {
-        	Destroy(collision.gameObject);
-        	Debug.Log("Enemy ship hit");
-        }
-        
     }
-
-	public void determineAggroState() {
-		if (hp < (hpMax/4)) {
-			aggroState = 2;
-		} else if (hp < (hpMax/2)) {
-			aggroState = 1;
-		} else {
-			aggroState = 0;
-		}
-	}
 
 	// note that we need to factor in the huge mass i put on the ship. I put huge mass in order to prevent bullets from skewing
 	// movement of the ship when the bullets hit
@@ -146,9 +104,7 @@ public class Enemy : MonoBehaviour {
 			maneuverCounter++;
 		}
 	}
-
-
-
+	
 	public void CircularDodging() {
 
 	}
@@ -170,7 +126,6 @@ public class Enemy : MonoBehaviour {
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
         Debug.DrawRay(transform.position, newDir, Color.red);
         transform.rotation = Quaternion.LookRotation(newDir);
-
 	}
 
 	public void ForwardsThrust(float thrust) {
@@ -178,7 +133,6 @@ public class Enemy : MonoBehaviour {
 		if ((rb.velocity.magnitude < maxSpeed)) {
 			rb.AddForce(transform.forward * thrust);
 		}
-		
 	}
 
 	public void ReverseThrust(float thrust) {

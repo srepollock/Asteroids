@@ -6,7 +6,6 @@ public class SmallAsteroid : MonoBehaviour {
 	public static int ASTEROIDDAMAGE = 100;
 	public static int ASTEROIDHEALTH = 100;
 	public static int ASTEROIDSCORE = 10;
-	public AudioSource explosion;
 
 	int currentHealth;	
 	GameObject sancho;
@@ -40,7 +39,6 @@ public class SmallAsteroid : MonoBehaviour {
 	}
 
 	void Death() {
-		explosion.Play();
 		asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
 		AddScore();
 		Destroy(gameObject); //Destroy object this script is attatched to

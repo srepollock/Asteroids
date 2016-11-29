@@ -149,12 +149,6 @@ public class PlayerControls : MonoBehaviour {
         }
     }
 
-	void OnCollisionEnter(Collision col) {
-		if (col.gameObject.tag == "Shot") {
-			Destroy (col.gameObject);
-		}
-	}
-
 	void ModifySpeed(float speed) {
 		currentSpeed += speed;
 		if (currentSpeed < minSpeed) {
