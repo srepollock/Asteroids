@@ -70,7 +70,7 @@ public class Enemy : MonoBehaviour {
 		moveStraight();
 
 		// shoot if roughly pointing at player
-		Vector3 targetDir = GameObject.Find("PodPlayer").transform.position - transform.position;
+		Vector3 targetDir = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
 		float angle = Vector3.Angle( targetDir, transform.forward );
 
 		if(angle < 5.0f ) {
@@ -163,7 +163,7 @@ public class Enemy : MonoBehaviour {
 
 	public void angleTowardsPlayer() {
 		// find where player is
-		Transform target = GameObject.Find("PodPlayer").transform;
+		Transform target = GameObject.FindGameObjectWithTag("Player").transform;
 
 		Vector3 targetDir = target.position - transform.position;
         float step = rotationSpeed;
