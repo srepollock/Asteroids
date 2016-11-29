@@ -43,9 +43,9 @@ public class PlayerControls : MonoBehaviour {
 	
     void FixedUpdate() {
         if (Time.timeScale == 1.0f) {
-            if (Input.GetKey(KeyCode.A)) {
+            if (Input.GetKey(KeyCode.Q)) {
                 transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
-            } else if (Input.GetKey(KeyCode.D)) {
+            } else if (Input.GetKey(KeyCode.E)) {
                 transform.Rotate(0, 0, rotateSpeed * Time.deltaTime * -1f);
             } if (slowingDown) {
                 ModifySpeed(-speedIncrease * 5);
@@ -54,7 +54,7 @@ public class PlayerControls : MonoBehaviour {
                     menuManager.increaseLevel();
                 }
             } else {
-                // Spacecraft Acceleration/Deceleration
+                // Spacecraft Acceleration/Deceleration (THRUST)
                 if (Input.GetKey(KeyCode.W)) {
                     ModifySpeed(speedIncrease);
                 }
@@ -63,6 +63,21 @@ public class PlayerControls : MonoBehaviour {
                 }
             }
 
+            // strafing and up/down is based off thrust
+            if (Input.GetKey(KeyCode.A)) {  
+                transform.Translate(Vector3.right * -1 * Time.deltaTime * currentSpeed/5);
+            } else if (Input.GetKey(KeyCode.D)) {
+                transform.Translate(Vector3.right * Time.deltaTime * currentSpeed/5);
+            }
+
+            if (Input.GetKey(KeyCode.Space)) {
+                transform.Translate(Vector3.up * Time.deltaTime * currentSpeed/5);
+            } else if (Input.GetKey(KeyCode.LeftShift)) {
+                transform.Translate(Vector3.up * -1 * Time.deltaTime * currentSpeed/5);
+            }
+
+            
+            
             Vector3 mousePos = (Input.mousePosition - (new Vector3(Screen.width, Screen.height, 0) / 2.0f));
             if (deadzone.Contains(Input.mousePosition)) {
                 mousePos = Vector3.zero;
