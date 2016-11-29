@@ -5,11 +5,14 @@ public class SmallAsteroid : MonoBehaviour {
 
 	public static int ASTEROIDDAMAGE = 100;
 	public static int ASTEROIDHEALTH = 100;
+	public static int ASTEROIDSCORE = 10;
+	public AudioSource explosion;
 
 	int currentHealth;	
 	GameObject sancho;
 	AsteroidSpawner asteroidSpawner;
     Eliptical_movement moveScript;
+	bool isDead = false;
 	void Start() {
 		currentHealth = ASTEROIDHEALTH;
 		sancho = GameObject.Find("Sancho");
@@ -25,7 +28,8 @@ public class SmallAsteroid : MonoBehaviour {
 		}
 		if (col.gameObject.tag == "Shot") {
 			TakeDamage(PlayerShot.SHOTDAMAGE);
-			if (currentHealth <= 0) {
+			if (currentHealth <= 0 && !isDead) {
+				isDead = true;
 				Death();
 			}
 		}
@@ -36,8 +40,15 @@ public class SmallAsteroid : MonoBehaviour {
 	}
 
 	void Death() {
-		Destroy(gameObject); //Destroy object this script is attatched to
+		explosion.Play();
 		asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
-		Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
+		AddScore();
+		Destroy(gameObject); //Destroy object this script is attatched to
+	}
+
+	void AddScore() {
+		PlayerScore ps = GameObject.FindGameObjectWithTag("Player")
+			.GetComponent<PlayerScore>();
+		ps.AddScoreAndCurrency(ASTEROIDSCORE);
 	}
 }

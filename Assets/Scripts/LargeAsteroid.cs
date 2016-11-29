@@ -5,11 +5,14 @@ public class LargeAsteroid : MonoBehaviour {
 
 	public static int ASTEROIDDAMAGE = MediumAsteroid.ASTEROIDDAMAGE * 4 + SmallAsteroid.ASTEROIDDAMAGE * 16 + ASTEROIDHEALTH;
 	public static int ASTEROIDHEALTH = 400;
+	public static int ASTEROIDSCORE = 40;
+	public AudioSource explosion;
 	
 	int currentHealth;
 	GameObject sancho;
 	AsteroidSpawner asteroidSpawner;
     Eliptical_movement moveScript;
+	bool isDead = false;
 
 	void Start() {
 		currentHealth = ASTEROIDHEALTH;
@@ -26,7 +29,8 @@ public class LargeAsteroid : MonoBehaviour {
 		}
 		if (col.gameObject.tag == "Shot") {
 			TakeDamage(PlayerShot.SHOTDAMAGE);
-			if (currentHealth <= 0) {
+			if (currentHealth <= 0 && !isDead) {
+				isDead = true;
 				SpawnMedium();
 			}
 		}
@@ -37,17 +41,17 @@ public class LargeAsteroid : MonoBehaviour {
 	}
 
 	void SpawnMedium() {
+		explosion.Play();
 		Destroy(gameObject); //Destroy object this script is attatched to
-		asteroidSpawner.asteroidDestroyed(); //Increase amount of asteroids
 		asteroidSpawner.explodeAsteroid("Large", moveScript.radiusA, moveScript.radiusB, 
 										moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
 										moveScript.angle, moveScript.center);
-		Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);  
+		asteroidSpawner.asteroidDestroyed(); //Increase amount of asteroids  
 	}
 
 	void Death(){
-		Destroy(gameObject); //Destroy object this script is attatched to
+		explosion.Play();
 		asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
-		Debug.Log("curAsteroids = " + asteroidSpawner.curAsteroids);
+		Destroy(gameObject); //Destroy object this script is attatched to
 	}
 }

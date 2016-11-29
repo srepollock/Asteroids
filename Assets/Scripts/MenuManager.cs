@@ -26,7 +26,6 @@ public class MenuManager : MonoBehaviour {
 
 	public void startGame() {
         setupGame();
-
 		goToScene("alpha");
 	}
 
@@ -42,6 +41,7 @@ public class MenuManager : MonoBehaviour {
         PlayerPrefs.SetInt("currentlevel", 1);
         // ensure the game is unpaused
         Time.timeScale = 1.0f;
+        PlayerScore.SetupPlayerScore();
     }
 
     public void goToScene(string scene) {
