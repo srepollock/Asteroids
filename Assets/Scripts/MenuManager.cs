@@ -38,7 +38,7 @@ public class MenuManager : MonoBehaviour {
     // Reset key values in the game.
     public void setupGame() {
         // set level to 1
-        PlayerPrefs.SetInt("currentlevel", 4);
+        PlayerPrefs.SetInt("currentlevel", 1);
         // ensure the game is unpaused
         Time.timeScale = 1.0f;
         PlayerScore.SetupPlayerScore();
