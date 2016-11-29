@@ -38,14 +38,18 @@ public class MenuManager : MonoBehaviour {
     // Reset key values in the game.
     public void setupGame() {
         // set level to 1
-        PlayerPrefs.SetInt("currentlevel", 1);
+        PlayerPrefs.SetInt("currentlevel", 3);
         // ensure the game is unpaused
         Time.timeScale = 1.0f;
         PlayerScore.SetupPlayerScore();
     }
 
     public void goToScene(string scene) {
-        SceneManager.LoadScene(scene);
+        if (LevelFour() == 4) {
+            SceneManager.LoadScene("boss_scene");
+        } else {
+            SceneManager.LoadScene(scene);
+        }
     }
 
     public void increaseLevel() {
@@ -54,5 +58,9 @@ public class MenuManager : MonoBehaviour {
     	// set playerprefs
     	PlayerPrefs.SetInt("currentlevel", curlvl+1);
     	goToScene("shop_menu");
+    }
+
+    int LevelFour() {
+        return PlayerPrefs.GetInt("currentlevel") % 4;
     }
 }
