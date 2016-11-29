@@ -42,6 +42,13 @@ public class MenuManager : MonoBehaviour {
         // ensure the game is unpaused
         Time.timeScale = 1.0f;
         PlayerScore.SetupPlayerScore();
+
+        // set the current ship
+        PlayerPrefs.SetInt("selectedShip", 1); //default player ship
+        // set the unlocks back
+        PlayerPrefs.SetInt("podPlayer", 1); //default player ship
+        PlayerPrefs.SetInt("tankPlayer", 0);
+        PlayerPrefs.SetInt("assaultPlayer", 0);
     }
 
     public void goToScene(string scene) {
