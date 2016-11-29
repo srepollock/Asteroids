@@ -42,14 +42,14 @@ public class Enemy : MonoBehaviour {
 
 		// do aggrostate stuff here, but for beta ai we just need the aggro ai
 		angleTowardsPlayer();
-		//moveStraight();
+		moveStraight();
 
 		// shoot if roughly pointing at player
 		Vector3 targetDir = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
 		float angle = Vector3.Angle( targetDir, transform.forward );
 
 		if(angle < 5.0f ) {
-			//shootStraight();
+			shootStraight();
 		}
 
 		// note that the forward is Z
