@@ -44,6 +44,7 @@ public class PlayerControls : MonoBehaviour {
 		deadzone = new Circle(c.x, c.y, 20f);
         sancho = GameObject.Find("Sancho");
         asteroidSpawner = sancho.GetComponent<AsteroidSpawner>();
+        speedSlider = GameObject.Find("SpeedSlider").GetComponent<Slider>();
         speedSlider.minValue = minSpeed;
         speedSlider.maxValue = maxSpeed;
         speedSlider.value = currentSpeed;

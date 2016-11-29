@@ -10,9 +10,10 @@ public class PlayerHealth : MonoBehaviour {
 	PlayerControls playerControls;
 	bool isDead = false;
 
-	void Awake() {
+	void Start() {
 		playerControls = GetComponent<PlayerControls>();
 		currentHealth = startingHealth;
+		healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
 		healthSlider.maxValue = currentHealth;
 		healthSlider.value = currentHealth;
 	}
