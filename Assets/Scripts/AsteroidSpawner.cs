@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+
 using System.Collections;
 
 public class AsteroidSpawner : MonoBehaviour {
@@ -20,9 +22,13 @@ public class AsteroidSpawner : MonoBehaviour {
 		// get player prefs
 		int curlvl = PlayerPrefs.GetInt("currentlevel");
 		
-		spawnSmallAsteroids(curlvl * asteroidLevelScaling / asteroidLevelScaling);
-		spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
-		spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
+ 		if (SceneManager.GetActiveScene().name != "boss_fight") {
+			spawnSmallAsteroids(curlvl * asteroidLevelScaling / asteroidLevelScaling);
+			spawnMediumAsteroids(curlvl * asteroidLevelScaling / 2);
+			spawnLargeAsteroids(curlvl * asteroidLevelScaling / 10);
+		} else {
+			curAsteroids = 1;
+		}
 
         Debug.Log("CurrentLevel = " + curlvl);
 	}
