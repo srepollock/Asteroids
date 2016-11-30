@@ -53,7 +53,7 @@ public class OOBscript : MonoBehaviour {
             }
             else
             {
-                HUDdanger.text = "SAFE";
+                HUDdanger.text = "";
                 clearFlash();
                 lifetime = LIFETIME_OOB;
             }
