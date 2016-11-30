@@ -7,6 +7,8 @@ public class MediumAsteroid : MonoBehaviour {
 	public static int ASTEROIDHEALTH = 200;
 	public static int ASTEROIDSCORE = 20;
 
+    public GameObject explosion;
+
 	int currentHealth;
 	GameObject sancho;
 	AsteroidSpawner asteroidSpawner;
@@ -48,6 +50,7 @@ public class MediumAsteroid : MonoBehaviour {
 
 	void Death() {
 		asteroidSpawner.asteroidDestroyed(); //Decrease amount of asteroids
-		Destroy(gameObject); //Destroy object this script is attatched to
+        Instantiate(explosion, this.transform.position, this.transform.rotation);
+        Destroy(gameObject); //Destroy object this script is attatched to
 	}
 }
