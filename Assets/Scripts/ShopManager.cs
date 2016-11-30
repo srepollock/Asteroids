@@ -4,11 +4,34 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour {
 
+    // AudioSource for buying items.
+    AudioSource buyItemSFX;
+
+    // PlayerScore helper class
+    PlayerScore ps;
+
+    // Array of buttons
     public GameObject[] buyingButtons;
 
-	// Use this for initialization
-	void Start () {
-        for(int i = 0; i < buyingButtons.Length; i++)
+    // Prices
+    public int tankPlayerPrice = 5;
+    public int assaultPlayerPrice = 5;
+
+    // Use this for initialization
+    void Start () {
+        buyItemSFX = this.GetComponent<AudioSource>();
+        ps = this.GetComponent<PlayerScore>();
+        initialButtonSetup();
+    }
+	
+	// Update is called once per frame
+	void Update () {
+        displayCurrency();
+    }
+
+    public void initialButtonSetup()
+    {
+        for (int i = 0; i < buyingButtons.Length; i++)
         {
             buyingButtons[i].active = false;
         }
@@ -17,11 +40,6 @@ public class ShopManager : MonoBehaviour {
         buyingButtons[2].active = true;
         buyingButtons[3].active = true;
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void bodyShop()
     {
@@ -37,30 +55,55 @@ public class ShopManager : MonoBehaviour {
 
     public void goBack()
     {
-        for(int i = 0; i < buyingButtons.Length; i++)
-        {
-            buyingButtons[i].active = false;
-        }
-
-        buyingButtons[1].active = true;
-        buyingButtons[2].active = true;
-        buyingButtons[3].active = true;
+        initialButtonSetup();
     }
 
     public void podPlayerSelect()
     {
+        Debug.Log("Selected Pod");
         PlayerPrefs.SetInt("selectedShip", 0);
     }
 
     public void tankPlayerSelect()
     {
-        PlayerPrefs.SetInt("unlockedTankPlayer", 1);
-        PlayerPrefs.SetInt("selectedShip", 1);
+        if (PlayerPrefs.GetInt("tankPlayer") == 0 && ps.SpendScore(tankPlayerPrice))
+        {
+            Debug.Log("Purchase and selected Tank");
+            PlayerPrefs.SetInt("tankPlayer", 1);
+            PlayerPrefs.SetInt("selectedShip", 1);
+            buyItem();
+        } else
+        {
+            Debug.Log("Selected Tank");
+            PlayerPrefs.SetInt("selectedShip", 1);
+        }
     }
 
     public void assaultPlayerSelect()
     {
-        PlayerPrefs.SetInt("unlockedAssaultPlayer", 1);
-        PlayerPrefs.SetInt("selectedShip", 2);
+        if (PlayerPrefs.GetInt("assaultPlayer") == 0 && ps.SpendScore(assaultPlayerPrice))
+        {
+            Debug.Log("Purchase and selected Assault");
+            PlayerPrefs.SetInt("assaultPlayer", 1);
+            PlayerPrefs.SetInt("selectedShip", 2);
+            buyItem();
+        }
+        else
+        {
+            Debug.Log("Selected Assault");
+            PlayerPrefs.SetInt("selectedShip", 2);
+        }
+    }
+
+    public void displayCurrency()
+    {
+        GameObject currencytextobj = GameObject.Find("CurrencyDisplay");
+        Text currencytext = currencytextobj.GetComponent<Text>();
+        currencytext.text = "You have $" + PlayerScore.GetPlayerCurrency();
+    }
+
+    public void buyItem()
+    {
+        buyItemSFX.Play();
     }
 }

@@ -47,6 +47,19 @@ public class PlayerScore : MonoBehaviour {
         int ps = PlayerPrefs.GetInt(TOTALSCORE);
         PlayerPrefs.SetInt(TOTALSCORE, ps + score);
     }
+    
+    public bool canSpendScore(int cur, int cost) {
+        if (cur < cost)
+        {
+            // not enough
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     /// <summary>
     /// Spending score in shop menu.
     /// </summary>
@@ -54,13 +67,13 @@ public class PlayerScore : MonoBehaviour {
     /// <returns>True if bought; False if cannot spend</returns>
     public bool SpendScore(int cost) {
         int cur = PlayerPrefs.GetInt(CURRENCY);
-        if (cur < cost) {
-            // not enough
-            return false;
-        } else {
+        if (canSpendScore(cur, cost)) {
             PlayerPrefs.SetInt(CURRENCY, cur - cost);
+            Debug.Log("Spending $" + cost);
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
     /// <summary>
     /// Setup the player prefs with player scores at the beginning of the game.
