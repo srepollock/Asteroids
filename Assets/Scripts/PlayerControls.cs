@@ -13,7 +13,7 @@ public class PlayerControls : MonoBehaviour {
     public GameObject shot;
     public Transform shotSpawn;
     public float fireRate = 0.01f;
-	public AudioSource thrusterLoop, thrusterEnd, laserBlast, playerHit;
+	public AudioSource thrusterLoop, thrusterEnd, laserBlast, playerHit, boostAudio;
     public float deviationIncreaseAmount = 0.1f;
     public float deviationDecreaseAmount = 0.1f;
     public Slider speedSlider;
@@ -57,6 +57,8 @@ public class PlayerControls : MonoBehaviour {
         if (Time.timeScale == 1.0f) {
 
             if ((Input.GetKey(KeyCode.LeftControl)) && (boostCdCur <= 0) && (!boosting)) {
+                boostAudio.time = .2f;
+                boostAudio.Play();
                 boosting = true;
                 curBoost = 0;
             }
@@ -144,8 +146,7 @@ public class PlayerControls : MonoBehaviour {
                     if (shotDeviationScale > 5f) {
                         shotDeviationScale = 5;
                     }
-                }
-                else {
+                } else {
                     shotDeviationScale -= deviationDecreaseAmount;
                     if (shotDeviationScale < 1)
                     {
