@@ -45,6 +45,7 @@ public class MediumAsteroid : MonoBehaviour {
 		asteroidSpawner.explodeAsteroid("Medium", moveScript.radiusA, moveScript.radiusB, 
 										moveScript.speed, moveScript.rtilt, moveScript.atilt_phase, moveScript.atilt_severity, 
 										moveScript.angle, moveScript.center);
+		Instantiate(explosion, this.transform.position, this.transform.rotation);
 		Destroy(gameObject); //Destroy object this script is attatched to
 	}
 
