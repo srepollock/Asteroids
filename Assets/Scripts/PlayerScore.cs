@@ -36,6 +36,8 @@ public class PlayerScore : MonoBehaviour {
         int cur = PlayerPrefs.GetInt(CURRENCY);
         PlayerPrefs.SetInt(TOTALSCORE, ps + score);
         PlayerPrefs.SetInt(CURRENCY, cur + score);
+        Debug.Log("Score: " + GetPlayerScore());
+        Debug.Log("Currency: " + GetPlayerCurrency());
     }
     /// <summary>
     /// Adds to total score of the player only.

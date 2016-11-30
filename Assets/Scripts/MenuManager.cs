@@ -2,13 +2,28 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class MenuManager : MonoBehaviour {
+
+    String HIGHSCORE_FILE = "/highscore.dat";
 
 	// Use this for initialization
 	void Start () {
         // on the end_screen scene, update texts
         if (SceneManager.GetActiveScene().name == "end_screen") {
+            GameObject highscoretextobj = GameObject.Find("HighScoreText");
+            Text highscoretext = highscoretextobj.GetComponent<Text>();
+            int highscore = LoadHighScore();
+            if (highscore > PlayerPrefs.GetInt("totalscore")){
+                highscoretext.text += highscore;
+            } else {
+                highscoretext.text += PlayerPrefs.GetInt("totalscore");
+                SaveHighScore();
+            }
+
             GameObject scoretextobj = GameObject.Find("ScoreText");
             Text scoretext = scoretextobj.GetComponent<Text>();
             scoretext.text += PlayerPrefs.GetInt("totalscore");
@@ -81,4 +96,50 @@ public class MenuManager : MonoBehaviour {
     int LevelFour() {
         return PlayerPrefs.GetInt("currentlevel") % 4;
     }
+
+    public int LoadHighScore() {
+        if(File.Exists(Application.persistentDataPath + HIGHSCORE_FILE))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = File.Open(Application.persistentDataPath + HIGHSCORE_FILE, FileMode.Open, FileAccess.Read);
+            GameData data = (GameData)bf.Deserialize(fs);
+            fs.Close();
+            return data.highscore;
+        } else
+        {
+            Debug.Log("Highscore file not found or doesn't exist yet.");
+            return 0;
+        }
+    }
+
+    public void SaveHighScore() {
+        GameData data = new GameData();
+        data.highscore = PlayerPrefs.GetInt("totalscore");
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = File.Open(Application.persistentDataPath + HIGHSCORE_FILE, FileMode.OpenOrCreate);
+        bf.Serialize(fs, data);
+        fs.Close();
+
+        Debug.Log("Saving Highscore. Score: " + data.highscore);
+    }
+
+    public void DeleteGameState()
+    {
+        String filename = Application.persistentDataPath + HIGHSCORE_FILE;
+        if (File.Exists(filename))
+        {
+            File.Delete(filename);
+        }
+        else
+        {
+            Debug.Log("File doesn't exist yet.");
+        }
+    }
 }
+
+[Serializable]
+class GameData
+{
+    public int highscore;
+};
