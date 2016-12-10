@@ -95,7 +95,7 @@ public class PlayerControls : MonoBehaviour {
                     }
                     else if (Input.GetKey(KeyCode.S)) {
                         ModifySpeed(-speedIncrease);
-                        if (speed <= minSpeed) {
+                        if (currentSpeed <= minSpeed) {
                             thrusterLoop.Stop();
                             if (!thrustendsound) {
                                 thrusterEnd.Play();
