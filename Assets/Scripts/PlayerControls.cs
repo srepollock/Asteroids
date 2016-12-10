@@ -40,6 +40,9 @@ public class PlayerControls : MonoBehaviour {
 
     public bool levelIncreased;
 
+    public bool thrustsoundplaying = false;
+    public bool thrustendsound = false;
+
     // Use this for initialization
     void Start () {
 		Vector2 c = new Vector2 (Screen.width / 2, Screen.height / 2);
@@ -69,7 +72,9 @@ public class PlayerControls : MonoBehaviour {
                     transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
                 } else if (Input.GetKey(KeyCode.E)) {
                     transform.Rotate(0, 0, rotateSpeed * Time.deltaTime * -1f);
-                } if (slowingDown) {
+                } 
+
+                if (slowingDown) {
                     ModifySpeed(-speedIncrease * 5);
                     if (currentSpeed == minSpeed) {
                         currentSpeed = 0;
@@ -81,10 +86,22 @@ public class PlayerControls : MonoBehaviour {
                 } else {
                     // Spacecraft Acceleration/Deceleration (THRUST)
                     if (Input.GetKey(KeyCode.W)) {
+                        if (!thrustsoundplaying) {
+                            thrusterLoop.Play();
+                            thrustsoundplaying = true;
+                            thrustendsound = false;
+                        }
                         ModifySpeed(speedIncrease);
                     }
                     else if (Input.GetKey(KeyCode.S)) {
                         ModifySpeed(-speedIncrease);
+                        if (speed <= minSpeed) {
+                            thrusterLoop.Stop();
+                            if (!thrustendsound) {
+                                thrusterEnd.Play();
+                                thrustendsound = true;    
+                            }
+                        }
                     }
                 }
 
