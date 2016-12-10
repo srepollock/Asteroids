@@ -25,6 +25,7 @@ public class PlayerControls : MonoBehaviour {
     public int boostCd = 0;
     public int boostCdCur = 0;
     public bool boosting = false;
+    public Text boostCdText;
 
     private float shotDeviationScale = 1;
     private Time mouseHeldDown;
@@ -125,7 +126,7 @@ public class PlayerControls : MonoBehaviour {
                 transform.Rotate(new Vector3(-mousePos.y, mousePos.x, -mousePos.x) * rotateSpeed * Time.deltaTime * 0.005f);
                 transform.Translate(Vector3.forward * Time.deltaTime * currentSpeed);
 
-                boostCdCur--;
+                BoostCooldown();
             } else {
                 transform.Translate(Vector3.forward * Time.deltaTime * (maxSpeed + boostSpeed));
 
@@ -184,4 +185,14 @@ public class PlayerControls : MonoBehaviour {
 		}
         speedSlider.value = currentSpeed;
 	}
+
+    void BoostCooldown() {
+        boostCdCur--;
+        Text avail = GameObject.Find("BoostAvailable").GetComponent<Text>();
+        if (boostCdCur <= 0) {
+            avail.text = "Available";
+        } else {
+            avail.text = "" + (boostCdCur/1000);
+        }
+    }
 }
