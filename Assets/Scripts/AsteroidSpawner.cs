@@ -13,7 +13,7 @@ public class AsteroidSpawner : MonoBehaviour {
 	public int maxRange = 2400;
 	public int maxMagnitude = 200;
 	public int speedLimit = 10;
-    public int asteroidLevelScaling = 5;
+    public int asteroidLevelScaling = 3;
 	public int curAsteroids = 0;
 
 	// Use this for initialization
