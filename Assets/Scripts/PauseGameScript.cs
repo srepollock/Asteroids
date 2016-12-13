@@ -1,20 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PauseGameScript : MonoBehaviour {
 
     private bool isPaused = false;
     GameObject pauseMenuCanvas;
+    private bool pausable = false;
 
 	// Use this for initialization
 	void Start () {
-        pauseMenuCanvas = GameObject.Find("PauseMenu");
-        pauseMenuCanvas.SetActive(false);
+        if (SceneManager.GetActiveScene().name == "main_menu" || SceneManager.GetActiveScene().name == "shop_menu")
+        {
+            pausable = false;
+        } else
+        {
+            pausable = true;
+        }
+
+        if (pausable)
+        {
+            pauseMenuCanvas = GameObject.Find("PauseMenu");
+            pauseMenuCanvas.SetActive(false);
+        }
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (pausable && Input.GetKeyDown(KeyCode.P))
         {
             isPaused = !isPaused;
 
