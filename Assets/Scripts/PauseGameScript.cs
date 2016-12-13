@@ -4,11 +4,12 @@ using System.Collections;
 public class PauseGameScript : MonoBehaviour {
 
     private bool isPaused = false;
-    public GameObject pauseMenuCanvas;
+    GameObject pauseMenuCanvas;
 
 	// Use this for initialization
 	void Start () {
-	
+        pauseMenuCanvas = GameObject.Find("PauseMenu");
+        pauseMenuCanvas.SetActive(false);
 	}
 	
 	// Update is called once per frame
